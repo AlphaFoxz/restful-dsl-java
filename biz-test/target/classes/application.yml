@@ -1,0 +1,10 @@
+debug: true
+server:
+  port: 8080
+
+dsl:
+  restful:
+    base-package: demo.restful
+    include-modules:
+      - biz-test
+    http-controller-class: demo.restful.biz_test.standard.HttpController
