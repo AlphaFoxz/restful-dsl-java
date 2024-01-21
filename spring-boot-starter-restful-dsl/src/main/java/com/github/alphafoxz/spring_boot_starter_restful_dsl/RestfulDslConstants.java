@@ -35,7 +35,7 @@ public enum RestfulDslConstants {
         // 解决Eclipse中user.dir不是根目录的问题
         String path = System.getProperty("user.dir");
         boolean isChange = false;
-        while (!FileUtil.file(path, ".gitignore").exists() && !FileUtil.file(path, ".sdk").exists()) {
+        while (!FileUtil.file(path, ".git").exists() && !FileUtil.file(path, ".mvn").exists() && !FileUtil.file(path, ".sdk").exists()) {
             path += FILE_SEPARATOR + "..";
             isChange = true;
         }
