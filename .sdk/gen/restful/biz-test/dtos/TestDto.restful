@@ -1,0 +1,10 @@
+namespace java demo.restful.biz_test.gen.restful.dtos
+namespace ts gen.biz_test.dtos
+
+/* 一个测试实体 */
+class TestADto {
+    /* 主键 */
+    i64 id
+    /* 名称 */
+    string name
+}
