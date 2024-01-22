@@ -8,6 +8,7 @@ import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.exception.RestfulDslException;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.toolkit.ParseRestfulSyntaxTreeUtil;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.toolkit.RestfulTokenDefine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -111,7 +112,6 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         CodeFile codeFile = new CodeFile();
         StringJoiner code = new StringJoiner("\n");
         code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + ";\n");
-        code.add("import com.github.alphafoxz.oneboot.common.standard.restful.RestfulEnum;");
         code.add("import io.swagger.v3.oas.annotations.media.Schema;");
         code.add("import lombok.AllArgsConstructor;");
         code.add("import lombok.Getter;\n");
@@ -124,7 +124,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
                 code.add("// " + commentBean.getCommentValue());
             }
         }
-        code.add("public enum " + enumBean.getEnumName() + " implements RestfulEnum {");
+        code.add("public enum " + enumBean.getEnumName() + " {");
         StringJoiner enumJoiner = new StringJoiner(",\n", "", ";");
         for (ParseRestfulSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
             String instStr = "";
@@ -192,6 +192,11 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
                 for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : fieldBean.getCommentList()) {
                     code.add(TAB + "//" + commentBean.getCommentValue().trim());
                 }
+            }
+            if (RestfulTokenDefine.REF_ENUM.equals(fieldBean.getType().getToken())) {
+                code.add(TAB + "/**");
+                code.add(TAB + " * @see " + fieldBean.getType().getT1().javaString());
+                code.add(TAB + " */");
             }
             code.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(fieldBean.getFieldName(), true), commentDocToStringWrapParam(fieldBean.getDoc())));
             if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier())) {

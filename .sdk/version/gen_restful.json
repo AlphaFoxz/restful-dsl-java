@@ -1,4 +1,5 @@
 {
     "\\biz-test\\apis\\TestApi.restful": "783561bfd68bcb8fea51b44a083ba72ce45c9a63b6c2c18c3308f634ecd7cf4c",
-    "\\biz-test\\dtos\\TestDto.restful": "29a82d347e5404eb661596e8088b13cdac378105c90579f8700faa2d67e0ea16"
+    "\\biz-test\\dtos\\TestDto.restful": "d96ca8ac3de4639af6cb710242f40cc9a7e84a455bf9cc71d2e276553e59a1d9",
+    "\\biz-test\\enums\\TestEnum.restful": "6c093e60eba2999d8f220b31c575a1d75414c1d82fe8bd04bd9c2ca9b37d982a"
 }

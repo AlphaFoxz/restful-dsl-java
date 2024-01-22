@@ -4,6 +4,7 @@ import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.apis.Res
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.*;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.RestfulDslInfoService;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.gen.RestfulDslGenCodeService;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.version.RestfulDslVersionCheckService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,8 @@ public class RestfulDslController implements RestfulDslApi {
     private RestfulDslGenCodeService restfulDslGenCodeService;
     @Resource
     private RestfulDslInfoService restfulDslInfoService;
+    @Resource
+    private RestfulDslVersionCheckService restfulDslVersionCheckService;
 
     @Override
     public ResponseEntity<SdkMapResponseDto> generateTsClientApi(SdkCodeTemplateRequestDto templateDto, String genDir) {
@@ -74,5 +77,10 @@ public class RestfulDslController implements RestfulDslApi {
     @Override
     public ResponseEntity<SdkStringResponseDto> getBasePackage() {
         return ResponseEntity.ok(restfulDslInfoService.getBasePackage());
+    }
+
+    @Override
+    public ResponseEntity<SdkVersionCheckResponse> checkRestfulFileVersion() {
+        return ResponseEntity.ok(restfulDslVersionCheckService.checkRestfulJava(null));
     }
 }

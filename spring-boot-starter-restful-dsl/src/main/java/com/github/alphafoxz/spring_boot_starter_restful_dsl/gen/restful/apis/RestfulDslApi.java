@@ -3,13 +3,18 @@ package com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.apis;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.*;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.stardard.HttpController;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RequestMapping({"/_restfulDsl"})
 @Tag(name = "RestfulDslApi", description = "restful-dsl接口")
@@ -25,7 +30,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return generateTsClientApi(U.toBean(_requestMap.get("templateDto"), SdkCodeTemplateRequestDto.class), (String) _requestMap.get("genDir"));
     }
-
     public ResponseEntity<SdkMapResponseDto> generateTsClientApi(
             SdkCodeTemplateRequestDto templateDto,
             String genDir
@@ -42,7 +46,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return generateRustClientApi(U.toBean(_requestMap.get("templateDto"), SdkCodeTemplateRequestDto.class), (String) _requestMap.get("genDir"));
     }
-
     public ResponseEntity<SdkMapResponseDto> generateRustClientApi(
             SdkCodeTemplateRequestDto templateDto,
             String genDir
@@ -79,7 +82,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return createOrUpdateFile((String) _requestMap.get("filePath"), (String) _requestMap.get("content"));
     }
-
     public ResponseEntity<SdkStringResponseDto> createOrUpdateFile(
             String filePath,
             String content
@@ -96,7 +98,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return createFolder((String) _requestMap.get("folderPath"));
     }
-
     public ResponseEntity<SdkStringResponseDto> createFolder(
             String folderPath
     );
@@ -112,7 +113,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return renameFile((String) _requestMap.get("filePath"), (String) _requestMap.get("newPath"));
     }
-
     public ResponseEntity<SdkStringResponseDto> renameFile(
             String filePath,
             String newPath
@@ -129,7 +129,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return deleteFile((String) _requestMap.get("filePath"));
     }
-
     public ResponseEntity<SdkListResponseDto> deleteFile(
             String filePath
     );
@@ -145,7 +144,6 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return getTemplateContentByPath((String) _requestMap.get("filePath"));
     }
-
     public ResponseEntity<SdkCodeTemplateResponseDto> getTemplateContentByPath(
             String filePath
     );
@@ -159,7 +157,7 @@ public interface RestfulDslApi extends HttpController {
     public ResponseEntity<SdkFileTreeResponseDto> getRestfulTemplateFileTree();
 
     @GetMapping(value = {"/getTemplateContentByImportPath"})
-    @Operation(summary = "", responses = {
+    @Operation(summary = "获取引用文件", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
@@ -170,11 +168,19 @@ public interface RestfulDslApi extends HttpController {
     );
 
     @GetMapping(value = {"/getBasePackage"})
-    @Operation(summary = "获取文件包前缀", responses = {
+    @Operation(summary = "获取包前缀", responses = {
             @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<SdkStringResponseDto> getBasePackage();
+
+    @GetMapping(value = {"/checkRestfulFileVersion"})
+    @Operation(summary = "检查restful文件版本与生成情况", responses = {
+            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
+    })
+    public ResponseEntity<SdkVersionCheckResponse> checkRestfulFileVersion();
 
 }

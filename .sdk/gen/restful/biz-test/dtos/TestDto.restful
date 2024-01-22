@@ -1,10 +1,14 @@
 namespace java demo.restful.biz_test.gen.restful.dtos
 namespace ts gen.biz_test.dtos
 
+import "../enums/TestEnum.restful"
+
 /* 一个测试实体 */
 class TestADto {
     /* 主键 */
     i64 id
     /* 名称 */
     string name
+    /* 类型 */
+    enum<TestEnum.TestEnum> type
 }
