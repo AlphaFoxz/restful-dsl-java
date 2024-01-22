@@ -1,9 +1,6 @@
 {
     "\\biz-test\\apis\\FileApi.restful": "7938f34636cd6d2691aef82c6412943a25666ac95117d38ac2c08a8c9272ba33",
-    "\\biz-test\\apis\\TestApi.restful": "783561bfd68bcb8fea51b44a083ba72ce45c9a63b6c2c18c3308f634ecd7cf4c",
-    "\\biz-test\\apis\\UserApi.restful": "e7b2ab7abc9086a56e881809474a1c97feee1438482a9fd00a652e94287531c3",
-    "\\biz-test\\dtos\\TestDto.restful": "d96ca8ac3de4639af6cb710242f40cc9a7e84a455bf9cc71d2e276553e59a1d9",
+    "\\biz-test\\apis\\UserApi.restful": "feb1e0e20cad7832d5f75ea6ccd8e1eb69ce98ca011a953782fed9840d96bc0f",
     "\\biz-test\\dtos\\UserDto.restful": "753501a8ea8450cfda45b8f611d2a0a340a44d3a504f2099aa112614707f47fe",
-    "\\biz-test\\enums\\TestEnum.restful": "6c093e60eba2999d8f220b31c575a1d75414c1d82fe8bd04bd9c2ca9b37d982a",
     "\\biz-test\\enums\\UserEnum.restful": "96f7ed8353b245e8fac70f9ac97161c682c61cc71a50bd038fb6f08bbc4ad497"
 }

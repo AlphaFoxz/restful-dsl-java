@@ -22,7 +22,7 @@ interface UserApi {
 
     /*注册用户*/
     @postUri(/register)
-    UserDto.UserDto register()
+    UserDto.UserDto register(/*用户信息*/UserDto.UserDto user)
 
     /*修改用户信息*/
     @postUri(/update)
