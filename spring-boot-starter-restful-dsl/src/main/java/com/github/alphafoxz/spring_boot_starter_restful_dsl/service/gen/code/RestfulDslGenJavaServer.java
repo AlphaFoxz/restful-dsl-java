@@ -3,6 +3,7 @@ package com.github.alphafoxz.spring_boot_starter_restful_dsl.service.gen.code;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
@@ -25,6 +26,7 @@ import java.util.StringJoiner;
 @Service
 public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
     private static final String TAB = "    ";
+    private static final String PAGE_CLASS_NAME = SpringUtil.getBean(RestfulDslProperties.class).getPageClass();
     private final List<String> postAnnoList = CollUtil.newArrayList("PostMapping", "PutMapping", "PatchMapping");
     @Resource
     private RestfulDslProperties restfulDslProperties;
@@ -238,7 +240,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             //解析@interface注解
             for (Map.Entry<String, List<String>> annoEntry : interfaceFunction.getAnnotationMap().entrySet()) {
                 switch (annoEntry.getKey()) {
-                    case "PageResponse": {
+                    case "Page": {
                         isPage = true;
                         continue;
 //                        break;
@@ -291,8 +293,11 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             returnType = "?";
         }
         if (isPage) {
-//            returnType = "Page<" + returnType + ">";
-            returnType = "PageResponse<" + returnType + ">";
+            String pageSimpleName = "Page";
+            if (StrUtil.contains(PAGE_CLASS_NAME, ".")) {
+                pageSimpleName = PAGE_CLASS_NAME.substring(PAGE_CLASS_NAME.lastIndexOf(".") + 1);
+            }
+            returnType = pageSimpleName + "<" + returnType + ">";
         }
         returnType = "ResponseEntity<" + returnType + ">";
         if (isPost

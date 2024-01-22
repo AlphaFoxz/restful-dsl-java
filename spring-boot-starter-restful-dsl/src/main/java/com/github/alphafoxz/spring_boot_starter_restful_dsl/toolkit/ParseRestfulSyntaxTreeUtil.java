@@ -4,7 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.exception.RestfulDslException;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkCodeTemplateDto;
 import lombok.Data;
@@ -24,6 +26,8 @@ import java.util.Set;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Slf4j
 public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
+    private static final String PAGE_CLASS_NAME = SpringUtil.getBean(RestfulDslProperties.class).getPageClass();
+
     public static RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto dto) {
         String filePath = dto.getFilePath();
         String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
@@ -672,11 +676,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             result.getImportTypeName().add("org.springframework.web.bind.annotation.DeleteMapping");
                             result.setAnnotationName("DeleteMapping");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "page")) { // 分页查询
-                            result.getImportTypeName().add("org.springframework.data.domain.Page");
-                            result.setAnnotationName("Page");
-//                            Class<?> c = com.github.alphafoxz.oneboot.preset_sys.service.framework.PageResponse.class;
-//                            result.getImportTypeName().add(c.getName());
-//                            result.setAnnotationName(c.getSimpleName());
+                            result.getImportTypeName().add(PAGE_CLASS_NAME);
+                            String simpleName = PAGE_CLASS_NAME.contains(".") ?
+                                    PAGE_CLASS_NAME.substring(PAGE_CLASS_NAME.lastIndexOf(".") + 1) :
+                                    PAGE_CLASS_NAME;
+                            result.setAnnotationName(simpleName);
                         } else if (StrUtil.equalsIgnoreCase(annoName, "formData")) {
                             result.getImportTypeName().add("org.springframework.web.multipart.MultipartFile");
                             result.setAnnotationName("FormData");
@@ -1105,11 +1109,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         public TypeBean parseRefEnum(Map ast, Modifier modifier) {
             TypeBean result = new TypeBean();
             result.setToken(REF_ENUM);
-            if (Modifier.REQUIRED.equals(modifier)) {
-                result.setJavaSimpleName("int");
-            } else {
-                result.setJavaSimpleName("Integer");
-            }
+//            if (Modifier.REQUIRED.equals(modifier)) {
+//                result.setJavaSimpleName("int");
+//            } else {
+            result.setJavaSimpleName("Integer");
+//            }
             result.setTsSimpleName("number");
             result.setRustSimpleName("i32");
             result.setSqlSimpleName("integer");

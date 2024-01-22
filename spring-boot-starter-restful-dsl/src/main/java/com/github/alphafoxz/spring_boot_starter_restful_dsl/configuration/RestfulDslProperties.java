@@ -13,5 +13,6 @@ public class RestfulDslProperties {
     private String basePackage = "com.github.alphafoxz";
     private List<String> includeModules;
     private String codePackage = "gen.restful";
-    private String httpControllerClass = "";
+    private String httpControllerClass = "HttpController";
+    private String pageClass = "org.springframework.data.domain.Page";
 }

@@ -8,3 +8,4 @@ dsl:
     include-modules:
       - biz-test
     http-controller-class: demo.restful.biz_test.standard.HttpController
+    page-class: demo.restful.biz_test.standard.Page
