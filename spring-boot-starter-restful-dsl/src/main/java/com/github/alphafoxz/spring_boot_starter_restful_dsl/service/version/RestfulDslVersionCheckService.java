@@ -9,10 +9,10 @@ import cn.hutool.crypto.SecureUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkVersionCheckDto;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkVersionCheckResponse;
+import jakarta.annotation.Resource;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.Serializable;
 import java.util.List;

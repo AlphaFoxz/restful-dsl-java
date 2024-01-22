@@ -11,13 +11,13 @@ import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.*;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.enums.SdkFileTypeEnum;
+import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;

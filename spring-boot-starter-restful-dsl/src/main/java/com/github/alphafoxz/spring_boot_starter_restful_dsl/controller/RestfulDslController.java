@@ -5,10 +5,9 @@ import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.*;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.RestfulDslInfoService;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.gen.RestfulDslGenCodeService;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.version.RestfulDslVersionCheckService;
+import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 @RestController
 public class RestfulDslController implements RestfulDslApi {

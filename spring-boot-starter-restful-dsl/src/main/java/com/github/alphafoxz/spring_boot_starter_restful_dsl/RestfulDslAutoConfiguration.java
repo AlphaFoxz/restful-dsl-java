@@ -2,11 +2,10 @@ package com.github.alphafoxz.spring_boot_starter_restful_dsl;
 
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.RestfulDslInfoService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-
-import javax.annotation.Resource;
 
 @Slf4j
 @ComponentScan(value = {

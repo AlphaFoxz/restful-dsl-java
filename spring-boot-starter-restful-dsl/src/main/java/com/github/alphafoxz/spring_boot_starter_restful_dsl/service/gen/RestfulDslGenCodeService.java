@@ -16,10 +16,10 @@ import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.RestfulDslIn
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.gen.code.*;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.version.RestfulDslVersionStoreService;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.toolkit.ParseRestfulSyntaxTreeUtil;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;

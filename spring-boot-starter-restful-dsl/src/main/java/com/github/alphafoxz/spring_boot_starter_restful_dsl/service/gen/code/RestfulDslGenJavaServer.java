@@ -10,12 +10,12 @@ import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.Restfu
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.exception.RestfulDslException;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.toolkit.ParseRestfulSyntaxTreeUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.toolkit.RestfulTokenDefine;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
