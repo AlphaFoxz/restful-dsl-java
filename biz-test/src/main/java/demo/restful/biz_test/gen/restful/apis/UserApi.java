@@ -52,7 +52,9 @@ public interface UserApi extends HttpController {
             @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
-    public ResponseEntity<UserDto> register();
+    public ResponseEntity<UserDto> register(
+            @Parameter(description = "用户信息") @RequestBody UserDto user
+    );
 
     @PostMapping(value = {"/update"})
     @Operation(summary = "修改用户信息", responses = {

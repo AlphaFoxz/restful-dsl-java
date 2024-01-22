@@ -84,7 +84,10 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             ParseRestfulSyntaxTreeUtil.CommentBean interfaceDoc = interfaceBean.getDoc();
             code.add(StrUtil.format("@Tag(name = {}, description = {})", JSONUtil.quote(interfaceBean.getInterfaceName(), true), commentDocToStringWrapParam(interfaceDoc)));
         }
-        code.add(StrUtil.format("public interface {} extends HttpController {", interfaceBean.getInterfaceName()));
+        String simpleName = restfulDslProperties.getHttpControllerClass().contains(".") ?
+                restfulDslProperties.getHttpControllerClass().substring(restfulDslProperties.getHttpControllerClass().lastIndexOf(".") + 1) :
+                restfulDslProperties.getHttpControllerClass();
+        code.add(StrUtil.format("public interface {} extends " + simpleName + " {", interfaceBean.getInterfaceName()));
         {
             //解析接口方法
             for (ParseRestfulSyntaxTreeUtil.InterfaceBean.InterfaceFunctionBean interfaceFunction : interfaceBean.getInterfaceFunctionList()) {
