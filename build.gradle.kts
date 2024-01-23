@@ -1,27 +1,28 @@
+var dslGroup = "com.github.alphafoxz"
+var dslVersion = "3.0.0-alpha.0"
 plugins {
     id("java")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-}
-group = "com.github.alphafoxz"
-version = "3.0.0-alpha.0"
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    id("maven-publish")
 }
 tasks.bootJar {
     enabled = false
 }
-
-project("spring-boot-starter-restful-dsl-test") {
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+allprojects {
+    group = "${dslGroup}"
+    version = "${dslVersion}"
     apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "maven-publish")
     repositories {
         mavenCentral()
     }
-    group = "com.github.alphafoxz"
-    version = "3.0.0-alpha.0"
     dependencyManagement {
         imports {
             org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
@@ -31,6 +32,37 @@ project("spring-boot-starter-restful-dsl-test") {
             dependency("cn.hutool:hutool-all:5.8.25")
         }
     }
+    publishing {
+        publications {
+
+        }
+    }
+}
+project(":starter") {
+    tasks.bootJar {
+        enabled = false
+//        archiveClassifier.set("")
+    }
+    dependencies {
+        compileOnly("org.springframework.boot:spring-boot-starter-web")
+        compileOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui")
+        compileOnly("cn.hutool:hutool-all")
+        compileOnly("org.projectlombok:lombok")
+        annotationProcessor("org.projectlombok:lombok")
+        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    }
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "${dslGroup}"
+                artifactId = "spring-boot-starter-restful-dsl"
+                version = "${dslVersion}"
+                from(components["java"])
+            }
+        }
+    }
+}
+project(":test") {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
@@ -41,6 +73,16 @@ project("spring-boot-starter-restful-dsl-test") {
         implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
         implementation("cn.hutool:hutool-all")
 
-        implementation(project(":spring-boot-starter-restful-dsl"))
+        implementation(project(":starter"))
+    }
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "${dslGroup}"
+                artifactId = "spring-boot-starter-restful-dsl-test"
+                version = "${dslVersion}"
+                from(components["java"])
+            }
+        }
     }
 }
