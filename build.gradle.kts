@@ -3,6 +3,8 @@ plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")
 }
+group = "com.github.alphafoxz"
+version = "3.0.0-alpha.0"
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -12,6 +14,7 @@ tasks.bootJar {
 }
 
 allprojects {
+    version = "3.0.0-alpha.0"
     apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
@@ -31,7 +34,6 @@ allprojects {
 
 project("spring-boot-starter-restful-dsl") {
     group = "com.github.alphafoxz"
-    version = "0.0.1-alpha.0"
     tasks.bootJar {
         enabled = false
     }
@@ -47,8 +49,8 @@ project("spring-boot-starter-restful-dsl") {
         annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     }
 }
-project("biz-test") {
-    group = "demo.restful"
+project("spring-boot-starter-restful-dsl-test") {
+    group = "com.github.alphafoxz"
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-web") {
             exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
