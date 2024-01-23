@@ -8,7 +8,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.exception.RestfulDslException;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkCodeTemplateDto;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslCodeTemplateDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +28,7 @@ import java.util.Set;
 public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
     private static final String PAGE_CLASS_NAME = SpringUtil.getBean(RestfulDslProperties.class).getPageClass();
 
-    public static RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto dto) {
+    public static RestfulRootBean parseRestfulRoot(RestfulDslCodeTemplateDto dto) {
         String filePath = dto.getFilePath();
         String fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
 
@@ -51,7 +51,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         private final RootBean rootBean;
         private final RestfulRootBean parentRootBean;
 
-        public RestfulIncludeBean(RestfulRootBean parentRootBean, SdkCodeTemplateDto dto) {
+        public RestfulIncludeBean(RestfulRootBean parentRootBean, RestfulDslCodeTemplateDto dto) {
             filePath = dto.getFilePath();
             fileName = filePath.substring(filePath.lastIndexOf(File.separator) + 1, filePath.lastIndexOf("."));
             content = dto.getContent();
@@ -75,10 +75,10 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         private String fileName;
         private String content;
         private final Set<RestfulIncludeBean> includeBeanSet = CollUtil.newHashSet();
-        private final Map<String, SdkCodeTemplateDto> includeDtoMap;
+        private final Map<String, RestfulDslCodeTemplateDto> includeDtoMap;
         private RootBean rootBean;
 
-        public RestfulRootBean(Map<String, SdkCodeTemplateDto> includeDtoMap) {
+        public RestfulRootBean(Map<String, RestfulDslCodeTemplateDto> includeDtoMap) {
             this.includeDtoMap = includeDtoMap;
         }
 
@@ -460,16 +460,16 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         private static final String RULE = "rule";
         private static final String INNER = "inner";
 
-        private final SdkCodeTemplateDto dto;
+        private final RestfulDslCodeTemplateDto dto;
         private final RestfulRootBean restfulRootBean;
         private final RestfulIncludeBean restfulIncludeBean;
         private final RootBean rootBean;
 
-        public RootBeanBuilder(RestfulRootBean restfulRootBean, RestfulIncludeBean restfulImportBean, SdkCodeTemplateDto dto) {
+        public RootBeanBuilder(RestfulRootBean restfulRootBean, RestfulIncludeBean restfulImportBean, RestfulDslCodeTemplateDto dto) {
             this.restfulRootBean = restfulRootBean;
             this.restfulIncludeBean = restfulImportBean;
-            Map<String, SdkCodeTemplateDto> namespaceMap = MapUtil.newHashMap();
-            for (Map.Entry<String, SdkCodeTemplateDto> entry : dto.getImports().entrySet()) {
+            Map<String, RestfulDslCodeTemplateDto> namespaceMap = MapUtil.newHashMap();
+            for (Map.Entry<String, RestfulDslCodeTemplateDto> entry : dto.getImports().entrySet()) {
                 String filePath = entry.getKey();
                 if (!filePath.contains(File.separator) || !filePath.contains(".")) {
                     continue;
@@ -1140,7 +1140,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     importRustTypeName += StrUtil.toUnderlineCase(namespace) + "::";
                     RestfulIncludeBean restfulIncludeBean = restfulRootBean.getRestfulIncludeBeanByFileName(namespace);
                     if (restfulIncludeBean == null) {
-                        SdkCodeTemplateDto includeDto = restfulRootBean.getIncludeDtoMap().get(namespace);
+                        RestfulDslCodeTemplateDto includeDto = restfulRootBean.getIncludeDtoMap().get(namespace);
                         restfulIncludeBean = new RestfulIncludeBean(restfulRootBean, includeDto);
                         restfulRootBean.getIncludeBeanSet().add(restfulIncludeBean);
                     }

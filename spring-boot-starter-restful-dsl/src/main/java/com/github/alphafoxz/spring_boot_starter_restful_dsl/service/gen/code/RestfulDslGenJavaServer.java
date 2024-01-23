@@ -336,6 +336,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             }
             String format = TAB + "public default {} {}({}) {\n" +
                     TAB + TAB + "return {}({});\n" +
+                    TAB + "}\n" +
                     TAB + "public {} {}({});\n";
             code.add(StrUtil.format(format,
                     returnType,
@@ -411,7 +412,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         if (!CollUtil.isEmpty(restfulDslProperties.getIncludeModules())) {
             //多模块
             for (String s : restfulDslProperties.getIncludeModules()) {
-                if (namespace.startsWith(restfulDslProperties.getBasePackage() + "." + s.replaceAll("[-]", "_"))) {
+                if (namespace.startsWith(restfulDslProperties.getBasePackage() + "." + s.replaceAll("[-]", "_") + ".")) {
                     moduleName = s;
                     break;
                 }

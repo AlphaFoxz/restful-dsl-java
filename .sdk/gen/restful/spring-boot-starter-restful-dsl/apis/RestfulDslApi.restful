@@ -1,0 +1,52 @@
+namespace java com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.apis
+namespace ts gen.restful_dsl.apis
+namespace rs gen.restful_dsl.apis
+
+import "../dtos/RestfulDslResponseDto.restful"
+import "../dtos/RestfulDslRequestDto.restful"
+import "../dtos/RestfulDslVersionDto.restful"
+
+/* restful-dsl接口 */
+@uri(/_restfulDsl)
+interface RestfulDslApi {
+    /*创建Ts client的Api代码*/
+    @postUri(/generateTsClientApi)
+    RestfulDslResponseDto.RestfulDslMapResponseDto generateTsClientApi(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto, string genDir)
+    /*创建rust client的Api代码*/
+    @postUri(/generateRustClientApi)
+    RestfulDslResponseDto.RestfulDslMapResponseDto generateRustClientApi(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto, string genDir)
+    /*创建java server的Api代码*/
+    @postUri(/generateJavaServerApi)
+    RestfulDslResponseDto.RestfulDslListResponseDto generateJavaServerApi(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto)
+    /*生成sql语句*/
+    @postUri(/generateSql)
+    RestfulDslResponseDto.RestfulDslMapResponseDto generateSql(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto)
+
+    /* 创建或更新文件 */
+    @postUri(/createOrUpdateFile)
+    RestfulDslResponseDto.RestfulDslStringResponseDto createOrUpdateFile(string filePath, string content)
+    /* 创建文件夹 */
+    @postUri(/createFolder)
+    RestfulDslResponseDto.RestfulDslStringResponseDto createFolder(string folderPath)
+    /* 重命名文件 */
+    @postUri(/renameFile)
+    RestfulDslResponseDto.RestfulDslStringResponseDto renameFile(string filePath, string newPath)
+    /* 删除文件 */
+    @postUri(/deleteFile)
+    RestfulDslResponseDto.RestfulDslListResponseDto deleteFile(string filePath)
+    /* 根据路径获取内容 */
+    @postUri(/getTemplateContentByPath)
+    RestfulDslResponseDto.RestfulDslCodeTemplateResponseDto getTemplateContentByPath(string filePath)
+    /* 获取restful模板文件树 */
+    @getUri(/getRestfulTemplateFileTree)
+    RestfulDslResponseDto.RestfulDslFileTreeResponseDto getRestfulTemplateFileTree()
+    /* 获取引用文件 */
+    @getUri(/getTemplateContentByImportPath)
+    RestfulDslResponseDto.RestfulDslCodeTemplateResponseDto getTemplateContentByImportPath(string temp_path, string import_path)
+    /* 获取包前缀 */
+    @getUri(/getBasePackage)
+    RestfulDslResponseDto.RestfulDslStringResponseDto getBasePackage()
+    /* 检查restful文件版本与生成情况 */
+    @getUri(/checkRestfulFileVersion)
+    RestfulDslVersionDto.RestfulDslVersionCheckResponse checkRestfulFileVersion()
+}

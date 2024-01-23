@@ -1,0 +1,18 @@
+namespace java com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos
+namespace ts gen.restful_dsl.dtos
+namespace rs gen.restful_dsl.dtos
+
+import "../enums/RestfulDslFileTypeEnum.restful"
+
+class RestfulDslFileInfoDto {
+    required string filePath
+    required string parentDir
+    required string fileName
+    required string separator
+    optional string content
+    optional string ext
+    required enum<RestfulDslFileTypeEnum.RestfulDslFileTypeEnum> fileType
+    required boolean isReadOnly
+    required boolean isEmpty
+    optional list<RestfulDslFileInfoDto> children
+}
