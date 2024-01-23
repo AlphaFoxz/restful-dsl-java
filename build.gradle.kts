@@ -1,27 +1,26 @@
-var dslGroup = "com.github.alphafoxz.restful-dsl-java"
-var dslVersion = "3.0.0-alpha.0"
+var restulDslGroup = "com.github.alphafoxz.restful-dsl-java"
+var restulDslVersion = "3.0.0-alpha.0"
 plugins {
     id("java")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("maven-publish")
 }
-tasks.bootJar {
-    enabled = false
-}
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+allprojects {
+    group = restulDslGroup
+    version = restulDslVersion
+    repositories {
+        mavenCentral()
+    }
 }
 subprojects {
-    group = "${dslGroup}"
-    version = "${dslVersion}"
     apply(plugin = "java")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "maven-publish")
-    repositories {
-        mavenCentral()
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     dependencyManagement {
         imports {
@@ -52,9 +51,9 @@ project(":starter") {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                groupId = "${dslGroup}"
+                groupId = restulDslGroup
                 artifactId = "spring-boot-starter-restful-dsl"
-                version = "${dslVersion}"
+                version = restulDslVersion
                 from(components["java"])
             }
         }
@@ -76,9 +75,9 @@ project(":test") {
     publishing {
         publications {
             create<MavenPublication>("maven") {
-                groupId = "${dslGroup}"
+                groupId = restulDslGroup
                 artifactId = "spring-boot-starter-restful-dsl-test"
-                version = "${dslVersion}"
+                version = restulDslVersion
                 from(components["java"])
             }
         }
