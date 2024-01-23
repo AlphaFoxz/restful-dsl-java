@@ -9,7 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.github.alphafoxz</groupId>
-    <artifactId>spring-boot-starter-restful-dsl-project</artifactId>
+    <artifactId>restful-dsl-java</artifactId>
+    <name>${project.artifactId}</name>
     <version>2.0.0-alpha.0</version>
     <properties>
         <java.version>8</java.version>
@@ -35,8 +36,8 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>spring-boot-starter-restful-dsl</module>
-        <module>spring-boot-starter-restful-dsl-test</module>
+        <module>starter</module>
+        <module>test</module>
     </modules>
 
     <build>

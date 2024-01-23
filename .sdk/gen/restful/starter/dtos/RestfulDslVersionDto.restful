@@ -1,0 +1,20 @@
+namespace java com.github.alphafoxz.restful_dsl.starter.gen.restful.dtos
+namespace ts gen.restful_dsl.dtos
+namespace rs gen.restful_dsl.dtos
+
+/*版本检查响应*/
+class RestfulDslVersionCheckResponse {
+    optional i64 id
+    required i64 taskId
+    required boolean success
+    optional string message
+    required list<RestfulDslVersionCheckDto> data
+}
+
+/*版本检查结果*/
+class RestfulDslVersionCheckDto {
+    required string filePath
+    required string sha256
+    required boolean same
+    required string message
+}

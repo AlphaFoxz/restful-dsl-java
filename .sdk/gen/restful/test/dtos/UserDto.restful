@@ -1,0 +1,40 @@
+namespace java com.github.alphafoxz.restful_dsl.test.gen.restful.dtos
+namespace ts gen.restful_dsl.dtos
+
+import "../enums/UserEnum.restful"
+
+/*用户简易dto*/
+class UserSimpleDto {
+    /*主键*/
+    i64 id
+
+    /*姓名*/
+    string username
+
+    /*用户类型*/
+    enum<UserEnum.UserTypeEnum> userType
+
+    /*权限*/
+    list<string> roles
+}
+
+/*用户dto*/
+class UserDto {
+    /*主键*/
+    required i64 id
+
+    /*姓名*/
+    required string username
+
+    /*用户类型*/
+    required enum<UserEnum.UserTypeEnum> userType
+
+    /*权限*/
+    required list<string> roles
+
+    /*邮箱*/
+    optional string email
+
+    /*性别*/
+    optional enum<UserEnum.UserGenderEnum> gender
+}
