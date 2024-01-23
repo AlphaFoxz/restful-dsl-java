@@ -39,6 +39,7 @@ project("spring-boot-starter-restful-dsl") {
     }
     tasks.jar {
         enabled = true
+        archiveClassifier.set("")
     }
     dependencies {
         compileOnly("org.springframework.boot:spring-boot-starter-web")
