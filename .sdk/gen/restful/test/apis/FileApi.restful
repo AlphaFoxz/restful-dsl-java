@@ -1,0 +1,24 @@
+namespace java com.github.alphafoxz.restful_dsl.test.gen.restful.apis
+namespace ts gen.restful_dsl.apis
+
+/*文件接口*/
+@uri(/file)
+interface FileApi {
+    //客户端对应类似这样一个表单：
+    //<form>
+    //   <input name="file" title="*请上传文件" type="file" />
+    //   <input name="desc" title="[可选]输入一段描述" />
+    //</from>
+    /*上传文件*/
+    @formData
+    @postUri(/upload)
+    boolean upload(
+            /*二进制文件*/binary file,
+            /*可选说明*/optional string desc
+    )
+
+    //当返回值为list<byte>时，实际上生成的代码会自动优化为byte数组，而不是反直觉的list容器
+    /*下载文件*/
+    @getUri(/download)
+    list<byte> download(/*主键*/i64 id)
+}
