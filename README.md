@@ -1,8 +1,8 @@
 [English](./README.md)
 
-# restFUL-DSL (领域特定语言)
+# RESTful-DSL (领域特定语言)
 
-restful-dsl是一个restFUL风格接口领域特定语言。是“面向接口开发”的一个实现。
+restful-dsl是一个RESTful风格接口领域特定语言。是“面向接口开发”的一个实现。
 
 ## 语法
 
