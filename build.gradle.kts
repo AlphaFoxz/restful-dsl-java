@@ -1,4 +1,4 @@
-var dslGroup = "com.github.alphafoxz"
+var dslGroup = "com.github.alphafoxz.restful-dsl-java"
 var dslVersion = "3.0.0-alpha.0"
 plugins {
     id("java")
@@ -13,7 +13,7 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-allprojects {
+subprojects {
     group = "${dslGroup}"
     version = "${dslVersion}"
     apply(plugin = "java")
@@ -32,16 +32,14 @@ allprojects {
             dependency("cn.hutool:hutool-all:5.8.25")
         }
     }
-    publishing {
-        publications {
-
-        }
-    }
 }
 project(":starter") {
     tasks.bootJar {
         enabled = false
 //        archiveClassifier.set("")
+    }
+    tasks.jar {
+        enabled = true
     }
     dependencies {
         compileOnly("org.springframework.boot:spring-boot-starter-web")

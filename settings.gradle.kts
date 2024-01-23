@@ -6,7 +6,6 @@ pluginManagement {
         id("io.spring.dependency-management") version springDependencyManagementPluginVersion
     }
 }
-rootProject.name = "restful-dsl-java"
 
 include(
     ":test",
