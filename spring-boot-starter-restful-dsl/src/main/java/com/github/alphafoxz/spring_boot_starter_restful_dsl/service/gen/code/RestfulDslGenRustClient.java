@@ -60,9 +60,6 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                 code.add("use " + StrUtil.toUnderlineCase(includeValue) + "::" + includeName + ";");
             }
         }
-        if (CollUtil.isNotEmpty(rootBean.getClassList())) {
-            code.add("use serde::{Deserialize, Serialize};");
-        }
         for (ParseRestfulSyntaxTreeUtil.ClassBean classBean : rootBean.getClassList()) {
             for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : classBean.getCommentList()) {
                 code.add("// " + commentBean.getCommentValue());
@@ -70,7 +67,7 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
             if (classBean.getDoc() != null) {
                 code.add(StrUtil.format(docFormat, classBean.getDoc().getCommentValue()));
             }
-            code.add("#[derive(Debug, Deserialize, Serialize)]");
+            code.add("#[derive(std::fmt::Debug, serde::Deserialize, serde::Serialize)]");
             code.add("#[serde(rename_all = \"camelCase\")]");
             code.add("pub struct " + classBean.getClassName() + " {");
             for (ParseRestfulSyntaxTreeUtil.ClassBean.ClassFieldBean fieldBean : classBean.getClassFieldList()) {
@@ -87,14 +84,11 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                 code.add(TAB + "pub " + StrUtil.toUnderlineCase(fieldBean.getFieldName()) + ": " + fieldRustString + ",");
             }
             code.add("}");
-            code.add("impl Into<" + classBean.getClassName() + "> for String {");
+            code.add("impl std::convert::Into<" + classBean.getClassName() + "> for String {");
             code.add(TAB + "fn into(self) -> " + classBean.getClassName() + " {");
             code.add(TAB + TAB + "serde_json::from_str(self.as_str()).unwrap()");
             code.add(TAB + "}");
             code.add("}");
-        }
-        if (CollUtil.isNotEmpty(rootBean.getEnumList())) {
-            code.add("use serde::{Deserialize, Serialize};");
         }
         for (ParseRestfulSyntaxTreeUtil.EnumBean enumBean : rootBean.getEnumList()) {
             for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : enumBean.getCommentList()) {
@@ -103,7 +97,10 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
             if (enumBean.getDoc() != null) {
                 code.add(StrUtil.format(docFormat, enumBean.getDoc().getCommentValue()));
             }
-            code.add("#[derive(Debug, Deserialize, Serialize)]");
+            code.add("#[derive(");
+            code.add(TAB + "std::fmt::Debug, std::cmp::PartialEq, serde_repr::Deserialize_repr, serde_repr::Serialize_repr,");
+            code.add(")]");
+            code.add("#[repr(i32)]");
             code.add("pub enum " + enumBean.getEnumName() + " {");
             for (ParseRestfulSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
                 for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : enumInstance.getCommentList()) {
@@ -114,11 +111,6 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                 }
                 code.add(TAB + StrUtil.upperFirst(StrUtil.toCamelCase(enumInstance.getInstanceName())) + " = " + enumInstance.getInstanceConstant() + ",");
             }
-            code.add("}");
-            code.add("impl From<" + enumBean.getEnumName() + "> for i32 {");
-            code.add(TAB + "fn from(_e: " + enumBean.getEnumName() + ") -> i32 {");
-            code.add(TAB + TAB + "_e.into()");
-            code.add(TAB + "}");
             code.add("}");
         }
         code.add("");

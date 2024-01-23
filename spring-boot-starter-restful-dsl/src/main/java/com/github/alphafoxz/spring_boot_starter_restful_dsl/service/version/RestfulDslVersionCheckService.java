@@ -7,8 +7,8 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkVersionCheckDto;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkVersionCheckResponse;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslVersionCheckDto;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslVersionCheckResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +26,17 @@ public class RestfulDslVersionCheckService {
     @Resource
     private Snowflake snowflake;
 
-    public SdkVersionCheckResponse checkRestfulJava(@Nullable Long taskId) {
-        SdkVersionCheckResponse response = new SdkVersionCheckResponse();
+    public RestfulDslVersionCheckResponse checkRestfulJava(@Nullable Long taskId) {
+        RestfulDslVersionCheckResponse response = new RestfulDslVersionCheckResponse();
         response.setId(snowflake.nextId());
         if (taskId == null) {
             taskId = snowflake.nextId();
         }
         response.setTaskId(taskId);
         Map<String, Serializable> versionMap = restfulDslVersionStoreService.genRestfulStore().readFile();
-        Map<String, SdkVersionCheckDto> checkResult = MapUtil.newHashMap();
+        Map<String, RestfulDslVersionCheckDto> checkResult = MapUtil.newHashMap();
         for (File file : FileUtil.loopFiles(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH)) {
-            SdkVersionCheckDto dto = new SdkVersionCheckDto();
+            RestfulDslVersionCheckDto dto = new RestfulDslVersionCheckDto();
             if (!StrUtil.endWithIgnoreCase(file.getName(), ".restful") || !file.isFile()) {
                 continue;
             }
@@ -59,7 +59,7 @@ public class RestfulDslVersionCheckService {
         }
         for (Map.Entry<String, Serializable> entry : versionMap.entrySet()) {
             if (!checkResult.containsKey(entry.getKey())) {
-                SdkVersionCheckDto dto = new SdkVersionCheckDto();
+                RestfulDslVersionCheckDto dto = new RestfulDslVersionCheckDto();
                 dto.setFilePath(entry.getKey());
                 dto.setSha256(entry.getValue().toString());
                 dto.setMessage("该文件生成过java代码，但这个restful模板现在已经不存在或改名了，请留意");
@@ -73,17 +73,17 @@ public class RestfulDslVersionCheckService {
         return response;
     }
 
-    public SdkVersionCheckResponse getRestfulTemplateHash(@Nullable Long taskId) {
-        SdkVersionCheckResponse response = new SdkVersionCheckResponse();
+    public RestfulDslVersionCheckResponse getRestfulTemplateHash(@Nullable Long taskId) {
+        RestfulDslVersionCheckResponse response = new RestfulDslVersionCheckResponse();
         response.setId(snowflake.nextId());
         if (taskId == null) {
             taskId = snowflake.nextId();
         }
         response.setTaskId(taskId);
 
-        List<SdkVersionCheckDto> resultList = CollUtil.newArrayList();
+        List<RestfulDslVersionCheckDto> resultList = CollUtil.newArrayList();
         for (File file : FileUtil.loopFiles(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH)) {
-            SdkVersionCheckDto dto = new SdkVersionCheckDto();
+            RestfulDslVersionCheckDto dto = new RestfulDslVersionCheckDto();
             if (!StrUtil.endWithIgnoreCase(file.getName(), ".restful") || !file.isFile()) {
                 continue;
             }

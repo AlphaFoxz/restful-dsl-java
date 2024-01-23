@@ -10,7 +10,7 @@ import cn.hutool.core.util.StrUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.configuration.RestfulDslProperties;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.*;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.enums.SdkFileTypeEnum;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.enums.RestfulDslFileTypeEnum;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,9 +34,9 @@ public class RestfulDslInfoService {
     @Resource
     private RestfulDslProperties restfulDslProperties;
 
-    public SdkListResponseDto checkErr() {
+    public RestfulDslListResponseDto checkErr() {
         final String restfulPath = RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH;
-        SdkListResponseDto result = new SdkListResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+        RestfulDslListResponseDto result = new RestfulDslListResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         List<String> errors = CollUtil.newArrayList();
         if (CollUtil.isEmpty(restfulDslProperties.getIncludeModules())) {
             // 单模块
@@ -63,8 +63,8 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkListResponseDto checkRestApiImplements() {
-        SdkListResponseDto result = new SdkListResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+    public RestfulDslListResponseDto checkRestApiImplements() {
+        RestfulDslListResponseDto result = new RestfulDslListResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         List<String> errors = CollUtil.newArrayList();
         if (CollUtil.isEmpty(restfulDslProperties.getIncludeModules())) {
             String targetPackage = restfulDslProperties.getBasePackage();
@@ -107,21 +107,21 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkStringResponseDto getJavaNamespace() {
-        SdkStringResponseDto result = new SdkStringResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+    public RestfulDslStringResponseDto getJavaNamespace() {
+        RestfulDslStringResponseDto result = new RestfulDslStringResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         result.setData(restfulDslProperties.getBasePackage());
         return result;
     }
 
-    public SdkCodeTemplateResponseDto getTemplateContentByPath(String filePath) {
-        SdkCodeTemplateResponseDto result = new SdkCodeTemplateResponseDto()
+    public RestfulDslCodeTemplateResponseDto getTemplateContentByPath(String filePath) {
+        RestfulDslCodeTemplateResponseDto result = new RestfulDslCodeTemplateResponseDto()
                 .setId(snowflake.nextId())
                 .setTaskId(snowflake.nextId())
                 .setSuccess(false);
         try {
             File file = FileUtil.file(filePath);
             String content = FileUtil.readUtf8String(file);
-            SdkCodeTemplateDto template = new SdkCodeTemplateDto();
+            RestfulDslCodeTemplateDto template = new RestfulDslCodeTemplateDto();
             template.setContent(content);
             template.setFilePath(file.getAbsolutePath());
             template.setFileSeparator(File.separator);
@@ -136,8 +136,8 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkFileTreeResponseDto getRestfulTemplateFileTree() {
-        SdkFileTreeResponseDto result = new SdkFileTreeResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
+    public RestfulDslFileTreeResponseDto getRestfulTemplateFileTree() {
+        RestfulDslFileTreeResponseDto result = new RestfulDslFileTreeResponseDto().setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         try {
             result.setData(readFileTree(FileUtil.file(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH), 0));
             return result;
@@ -149,8 +149,8 @@ public class RestfulDslInfoService {
         }
     }
 
-    private SdkFileInfoDto readFileTree(File fileOrDir, int level) {
-        SdkFileInfoDto dto = new SdkFileInfoDto();
+    private RestfulDslFileInfoDto readFileTree(File fileOrDir, int level) {
+        RestfulDslFileInfoDto dto = new RestfulDslFileInfoDto();
         dto.setSeparator(File.separator);
         dto.setIsReadOnly(level <= 2);
         dto.setFilePath(fileOrDir.getAbsolutePath());
@@ -159,13 +159,13 @@ public class RestfulDslInfoService {
         if (FileUtil.isFile(fileOrDir)) {
             // 文件类型
             dto.setExt(FileUtil.getSuffix(fileOrDir));
-            dto.setFileType(SdkFileTypeEnum.LOCAL_FILE.getValue());
+            dto.setFileType(RestfulDslFileTypeEnum.LOCAL_FILE.getValue());
             dto.setIsEmpty(FileUtil.size(fileOrDir) == 0);
             dto.setContent(FileUtil.readUtf8String(fileOrDir));
             return dto;
         }
         // 目录类型
-        dto.setFileType(SdkFileTypeEnum.LOCAL_DIR.getValue());
+        dto.setFileType(RestfulDslFileTypeEnum.LOCAL_DIR.getValue());
         dto.setChildren(CollUtil.newArrayList());
         File[] innerFiles = FileUtil.ls(fileOrDir.getAbsolutePath());
         boolean isEmpty = innerFiles == null || innerFiles.length == 0;
@@ -179,9 +179,9 @@ public class RestfulDslInfoService {
         return dto;
     }
 
-    public SdkListResponseDto deleteFile(String filePath) {
+    public RestfulDslListResponseDto deleteFile(String filePath) {
         File file = FileUtil.file(filePath);
-        SdkListResponseDto dto = new SdkListResponseDto()
+        RestfulDslListResponseDto dto = new RestfulDslListResponseDto()
                 .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         if (!file.exists() || !StrUtil.startWith(file.getAbsolutePath(), RestfulDslConstants.PROJECT_ROOT_PATH)) {
             dto.setMessage("【文件路径非法】" + file.getAbsolutePath());
@@ -192,8 +192,8 @@ public class RestfulDslInfoService {
         return dto;
     }
 
-    public SdkStringResponseDto renameFile(String filePath, String newPath) {
-        SdkStringResponseDto result = new SdkStringResponseDto()
+    public RestfulDslStringResponseDto renameFile(String filePath, String newPath) {
+        RestfulDslStringResponseDto result = new RestfulDslStringResponseDto()
                 .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         File file = FileUtil.file(filePath);
         if (!file.exists() || !StrUtil.startWith(file.getAbsolutePath(), RestfulDslConstants.PROJECT_ROOT_PATH) || !newPath.startsWith(RestfulDslConstants.PROJECT_ROOT_PATH)) {
@@ -211,8 +211,8 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkStringResponseDto createFolder(String folderPath) {
-        SdkStringResponseDto result = new SdkStringResponseDto()
+    public RestfulDslStringResponseDto createFolder(String folderPath) {
+        RestfulDslStringResponseDto result = new RestfulDslStringResponseDto()
                 .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         if (StrUtil.isBlank(folderPath) || !folderPath.startsWith(RestfulDslConstants.PROJECT_ROOT_PATH)) {
             result.setMessage("【文件路径非法】" + folderPath);
@@ -229,8 +229,8 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkStringResponseDto createOrUpdateFile(String filePath, String content) {
-        SdkStringResponseDto result = new SdkStringResponseDto()
+    public RestfulDslStringResponseDto createOrUpdateFile(String filePath, String content) {
+        RestfulDslStringResponseDto result = new RestfulDslStringResponseDto()
                 .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         File file = FileUtil.file(filePath);
         if (StrUtil.isBlank(filePath) || !filePath.startsWith(RestfulDslConstants.PROJECT_ROOT_PATH)) {
@@ -246,8 +246,8 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkCodeTemplateResponseDto getTemplateContentByImportPath(String tempPath, String importPath) {
-        SdkCodeTemplateResponseDto result = new SdkCodeTemplateResponseDto()
+    public RestfulDslCodeTemplateResponseDto getTemplateContentByImportPath(String tempPath, String importPath) {
+        RestfulDslCodeTemplateResponseDto result = new RestfulDslCodeTemplateResponseDto()
                 .setId(snowflake.nextId()).setTaskId(snowflake.nextId()).setSuccess(true);
         try {
             File templateFile = FileUtil.file(tempPath);
@@ -255,7 +255,7 @@ public class RestfulDslInfoService {
             targetPath = targetPath.substring(0, targetPath.lastIndexOf(File.separator) + 1);
             targetPath += importPath;
             File targetFile = FileUtil.file(targetPath);
-            SdkCodeTemplateDto dto = new SdkCodeTemplateDto();
+            RestfulDslCodeTemplateDto dto = new RestfulDslCodeTemplateDto();
             dto.setContent(FileUtil.readString(targetFile, StandardCharsets.UTF_8));
             dto.setFilePath(targetFile.getAbsolutePath());
             dto.setFileSeparator(File.separator);
@@ -270,8 +270,8 @@ public class RestfulDslInfoService {
         return result;
     }
 
-    public SdkStringResponseDto getBasePackage() {
-        SdkStringResponseDto dto = new SdkStringResponseDto()
+    public RestfulDslStringResponseDto getBasePackage() {
+        RestfulDslStringResponseDto dto = new RestfulDslStringResponseDto()
                 .setId(snowflake.nextId())
                 .setTaskId(snowflake.nextId())
                 .setSuccess(true);

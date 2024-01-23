@@ -285,7 +285,7 @@ boolean upload(binary file, string customAttr)
 `apis/UserApi.restful`内容
 
 ```
-namespace java demo.restful.biz_test.gen.restful.apis
+namespace java com.github.alphafoxz.spring_boot_starter_restful_dsl_test.gen.restful.apis
 namespace ts gen.biz_test.apis
 
 import "../dtos/UserDto.restful"
@@ -324,7 +324,7 @@ interface UserApi {
 `dtos/UserDto.restful`内容
 
 ```
-namespace java demo.restful.biz_test.gen.restful.dtos
+namespace java com.github.alphafoxz.spring_boot_starter_restful_dsl_test.gen.restful.dtos
 namespace ts gen.biz_test.dtos
 
 import "../enums/UserEnum.restful"
@@ -369,7 +369,7 @@ class UserDto {
 `enums/UserEnum.restful`内容
 
 ```
-namespace java demo.restful.biz_test.gen.restful.enums
+namespace java com.github.alphafoxz.spring_boot_starter_restful_dsl_test.gen.restful.enums
 namespace ts gen.biz_test.enums
 
 /*用户性别枚举*/
@@ -396,7 +396,7 @@ enum UserTypeEnum {
 `apis/FileApi.restful`内容
 
 ```
-namespace java demo.restful.biz_test.gen.restful.apis
+namespace java com.github.alphafoxz.spring_boot_starter_restful_dsl_test.gen.restful.apis
 namespace ts gen.biz_test.apis
 
 /*文件接口*/

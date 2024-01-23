@@ -8,10 +8,10 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.RestfulDslConstants;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkCodeTemplateDto;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkCodeTemplateRequestDto;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkListResponseDto;
-import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.SdkMapResponseDto;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslCodeTemplateDto;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslCodeTemplateRequestDto;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslListResponseDto;
+import com.github.alphafoxz.spring_boot_starter_restful_dsl.gen.restful.dtos.RestfulDslMapResponseDto;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.RestfulDslInfoService;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.gen.code.*;
 import com.github.alphafoxz.spring_boot_starter_restful_dsl.service.version.RestfulDslVersionStoreService;
@@ -45,12 +45,12 @@ public class RestfulDslGenCodeService {
     @Resource
     private RestfulDslVersionStoreService restfulDslVersionStoreService;
 
-    public SdkMapResponseDto previewGenerateTsApi(SdkCodeTemplateRequestDto templateDto, String genDir) {
-        SdkMapResponseDto result = new SdkMapResponseDto()
+    public RestfulDslMapResponseDto previewGenerateTsApi(RestfulDslCodeTemplateRequestDto templateDto, String genDir) {
+        RestfulDslMapResponseDto result = new RestfulDslMapResponseDto()
                 .setId(snowflake.nextId()).setTaskId(templateDto.getTaskId()).setSuccess(false);
         result.setData(MapUtil.newHashMap());
         // 检查基本SDK环境
-        SdkListResponseDto checkInfo = restfulDslInfoService.checkErr();
+        RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
             log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
             result.setMessage("检查thrift时发现错误");
@@ -73,12 +73,12 @@ public class RestfulDslGenCodeService {
         return result;
     }
 
-    public SdkMapResponseDto previewGenerateRustApi(SdkCodeTemplateRequestDto templateDto, String genDir) {
-        SdkMapResponseDto result = new SdkMapResponseDto()
+    public RestfulDslMapResponseDto previewGenerateRustApi(RestfulDslCodeTemplateRequestDto templateDto, String genDir) {
+        RestfulDslMapResponseDto result = new RestfulDslMapResponseDto()
                 .setId(snowflake.nextId()).setTaskId(templateDto.getTaskId()).setSuccess(false);
         result.setData(MapUtil.newHashMap());
         // 检查基本SDK环境
-        SdkListResponseDto checkInfo = restfulDslInfoService.checkErr();
+        RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
             log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
             result.setMessage("检查thrift时发现错误");
@@ -102,11 +102,11 @@ public class RestfulDslGenCodeService {
     }
 
 
-    public SdkListResponseDto generateJavaApi(SdkCodeTemplateRequestDto templateDto) {
-        SdkListResponseDto result = new SdkListResponseDto()
+    public RestfulDslListResponseDto generateJavaApi(RestfulDslCodeTemplateRequestDto templateDto) {
+        RestfulDslListResponseDto result = new RestfulDslListResponseDto()
                 .setId(snowflake.nextId()).setTaskId(templateDto.getTaskId()).setSuccess(false);
         // 检查基本SDK环境
-        SdkListResponseDto checkInfo = restfulDslInfoService.checkErr();
+        RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
             log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
             result.setMessage("检查thrift时发现错误");
@@ -137,12 +137,12 @@ public class RestfulDslGenCodeService {
         return result;
     }
 
-    public SdkMapResponseDto previewGenerateSql(SdkCodeTemplateRequestDto templateDto) {
-        SdkMapResponseDto result = new SdkMapResponseDto()
+    public RestfulDslMapResponseDto previewGenerateSql(RestfulDslCodeTemplateRequestDto templateDto) {
+        RestfulDslMapResponseDto result = new RestfulDslMapResponseDto()
                 .setId(snowflake.nextId()).setTaskId(templateDto.getTaskId()).setSuccess(false);
         result.setData(MapUtil.newHashMap());
         // 检查基本SDK环境
-        SdkListResponseDto checkInfo = restfulDslInfoService.checkErr();
+        RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
             log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
             result.setMessage("检查thrift时发现错误");
@@ -164,7 +164,7 @@ public class RestfulDslGenCodeService {
         return result;
     }
 
-    private ParseRestfulSyntaxTreeUtil.RestfulRootBean parseRestfulRoot(SdkCodeTemplateDto templateDto) {
+    private ParseRestfulSyntaxTreeUtil.RestfulRootBean parseRestfulRoot(RestfulDslCodeTemplateDto templateDto) {
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
         ParseRestfulSyntaxTreeUtil.RootBean rootBean;
         try {
