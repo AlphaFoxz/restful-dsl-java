@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.github.alphafoxz</groupId>
         <artifactId>restful-dsl-java</artifactId>
-        <version>2.0.0-alpha.0</version>
+        <version>2.0.0-alpha.3</version>
     </parent>
     <artifactId>spring-boot-starter-restful-dsl</artifactId>
     <name>${project.artifactId}</name>
-    <version>2.0.0-alpha.0</version>
+    <version>2.0.0-alpha.3</version>
     <properties>
         <java.version>8</java.version>
     </properties>
