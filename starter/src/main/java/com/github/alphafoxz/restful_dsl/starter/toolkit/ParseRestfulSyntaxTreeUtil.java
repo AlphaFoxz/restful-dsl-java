@@ -677,10 +677,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                             result.setAnnotationName("DeleteMapping");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "page")) { // 分页查询
                             result.getImportTypeName().add(PAGE_CLASS_NAME);
-                            String simpleName = PAGE_CLASS_NAME.contains(".") ?
-                                    PAGE_CLASS_NAME.substring(PAGE_CLASS_NAME.lastIndexOf(".") + 1) :
-                                    PAGE_CLASS_NAME;
-                            result.setAnnotationName(simpleName);
+                            result.setAnnotationName("Page");
                         } else if (StrUtil.equalsIgnoreCase(annoName, "formData")) {
                             result.getImportTypeName().add("org.springframework.web.multipart.MultipartFile");
                             result.setAnnotationName("FormData");
