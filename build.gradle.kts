@@ -1,5 +1,5 @@
 var restulDslGroup = "com.github.alphafoxz.restful-dsl-java"
-var restulDslVersion = "3.0.0-alpha.0"
+var restulDslVersion = "3.0.0-alpha.3"
 plugins {
     id("java")
     id("org.springframework.boot")
