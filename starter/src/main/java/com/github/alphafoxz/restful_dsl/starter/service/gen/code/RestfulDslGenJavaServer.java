@@ -231,6 +231,8 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         boolean isFormData = false;
         boolean hasRequestParam = false;
         boolean hasResponseParam = false;
+        StringJoiner refEnumDesc = new StringJoiner("\n" + TAB + " * ", TAB + "/* \n" + TAB + " * ", "\n" + TAB + " */\n");
+        refEnumDesc.setEmptyValue("");
         Set<String> pathVarSet = CollUtil.newHashSet();
         {
             //解析普通注释
@@ -238,6 +240,13 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             if (CollUtil.isNotEmpty(commentList)) {
                 for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : commentList) {
                     code.add(TAB + "// " + commentBean.getCommentValue().trim());
+                }
+            }
+            //处理枚举
+            for (ParseRestfulSyntaxTreeUtil.ParamBean paramBean : interfaceFunction.getParamList()) {
+                if (RestfulTokenDefine.REF_ENUM.equals(paramBean.getParamType().getToken())) {
+                    refEnumDesc.add("@param " + paramBean.getParamName() + " 枚举值");
+                    refEnumDesc.add("@see " + paramBean.getParamType().getT1().javaString());
                 }
             }
             //解析@interface注解
@@ -284,7 +293,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             }
             //解析API注释
             ParseRestfulSyntaxTreeUtil.CommentBean functionDoc = interfaceFunction.getDoc();
-            String formatStr = TAB + "@Operation(summary = {}, responses = {\n"
+            String formatStr = refEnumDesc + TAB + "@Operation(summary = {}, responses = {\n"
                     + TAB + TAB + TAB + "@ApiResponse(description = \"请求成功\", responseCode = \"200\", content = @Content(mediaType = \"application/json\", schema = @Schema(implementation = String.class))),\n"
                     + TAB + TAB + TAB + "@ApiResponse(description = \"无权限\", responseCode = \"403\", content = @Content(schema = @Schema(hidden = true))),\n"
                     + TAB + TAB + TAB + "@ApiResponse(description = \"参数无效\", responseCode = \"400\", content = @Content(schema = @Schema(hidden = true))),\n"
@@ -337,6 +346,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             String format = TAB + "public default {} {}({}) {\n" +
                     TAB + TAB + "return {}({});\n" +
                     TAB + "}\n" +
+                    refEnumDesc +
                     TAB + "public {} {}({});\n";
             code.add(StrUtil.format(format,
                     returnType,
