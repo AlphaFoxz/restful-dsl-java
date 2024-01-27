@@ -231,7 +231,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         boolean isFormData = false;
         boolean hasRequestParam = false;
         boolean hasResponseParam = false;
-        StringJoiner refEnumDesc = new StringJoiner("\n" + TAB + " * ", TAB + "/**\n" + TAB + " * ", "\n" + TAB + " */\n");
+        StringJoiner refEnumDesc = new StringJoiner("\n" + TAB + " * ", TAB + "/**\n" + TAB + " * ", "\n" + TAB + " */");
         refEnumDesc.setEmptyValue("");
         Set<String> pathVarSet = CollUtil.newHashSet();
         {
@@ -351,7 +351,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             String format = TAB + "public default {} {}({}) {\n" +
                     TAB + TAB + "return {}({});\n" +
                     TAB + "}\n" +
-                    refEnumDesc +
+                    refEnumDesc + "\n" +
                     TAB + "public {} {}({});\n";
             code.add(StrUtil.format(format,
                     returnType,

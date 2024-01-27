@@ -36,6 +36,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return generateTsClientApi(U.toBean(_requestMap.get("templateDto"), RestfulDslCodeTemplateRequestDto.class), (String) _requestMap.get("genDir"));
     }
+
     public ResponseEntity<RestfulDslMapResponseDto> generateTsClientApi(
             RestfulDslCodeTemplateRequestDto templateDto,
             String genDir
@@ -52,6 +53,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return generateRustClientApi(U.toBean(_requestMap.get("templateDto"), RestfulDslCodeTemplateRequestDto.class), (String) _requestMap.get("genDir"));
     }
+
     public ResponseEntity<RestfulDslMapResponseDto> generateRustClientApi(
             RestfulDslCodeTemplateRequestDto templateDto,
             String genDir
@@ -88,6 +90,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return createOrUpdateFile((String) _requestMap.get("filePath"), (String) _requestMap.get("content"));
     }
+
     public ResponseEntity<RestfulDslStringResponseDto> createOrUpdateFile(
             String filePath,
             String content
@@ -104,6 +107,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return createFolder((String) _requestMap.get("folderPath"));
     }
+
     public ResponseEntity<RestfulDslStringResponseDto> createFolder(
             String folderPath
     );
@@ -119,6 +123,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return renameFile((String) _requestMap.get("filePath"), (String) _requestMap.get("newPath"));
     }
+
     public ResponseEntity<RestfulDslStringResponseDto> renameFile(
             String filePath,
             String newPath
@@ -135,6 +140,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return deleteFile((String) _requestMap.get("filePath"));
     }
+
     public ResponseEntity<RestfulDslListResponseDto> deleteFile(
             String filePath
     );
@@ -150,6 +156,7 @@ public interface RestfulDslApi extends HttpController {
     ) {
         return getTemplateContentByPath((String) _requestMap.get("filePath"));
     }
+
     public ResponseEntity<RestfulDslCodeTemplateResponseDto> getTemplateContentByPath(
             String filePath
     );
