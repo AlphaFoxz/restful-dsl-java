@@ -235,18 +235,23 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         refEnumDesc.setEmptyValue("");
         Set<String> pathVarSet = CollUtil.newHashSet();
         {
+            //处理枚举说明
+            boolean hasRefEnum = false;
+            for (ParseRestfulSyntaxTreeUtil.ParamBean paramBean : interfaceFunction.getParamList()) {
+                if (RestfulTokenDefine.REF_ENUM.equals(paramBean.getParamType().getToken())) {
+                    refEnumDesc.add("@param " + paramBean.getParamName() + " 枚举值");
+                    refEnumDesc.add("@see " + paramBean.getParamType().getT1().javaString());
+                    hasRefEnum = true;
+                }
+            }
+            if (hasRefEnum) {
+                code.add(refEnumDesc.toString());
+            }
             //解析普通注释
             List<ParseRestfulSyntaxTreeUtil.CommentBean> commentList = interfaceFunction.getCommentList();
             if (CollUtil.isNotEmpty(commentList)) {
                 for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : commentList) {
                     code.add(TAB + "// " + commentBean.getCommentValue().trim());
-                }
-            }
-            //处理枚举
-            for (ParseRestfulSyntaxTreeUtil.ParamBean paramBean : interfaceFunction.getParamList()) {
-                if (RestfulTokenDefine.REF_ENUM.equals(paramBean.getParamType().getToken())) {
-                    refEnumDesc.add("@param " + paramBean.getParamName() + " 枚举值");
-                    refEnumDesc.add("@see " + paramBean.getParamType().getT1().javaString());
                 }
             }
             //解析@interface注解
