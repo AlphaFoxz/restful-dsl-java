@@ -298,7 +298,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             }
             //解析API注释
             ParseRestfulSyntaxTreeUtil.CommentBean functionDoc = interfaceFunction.getDoc();
-            String formatStr = refEnumDesc + TAB + "@Operation(summary = {}, responses = {\n"
+            String formatStr = TAB + "@Operation(summary = {}, responses = {\n"
                     + TAB + TAB + TAB + "@ApiResponse(description = \"请求成功\", responseCode = \"200\", content = @Content(mediaType = \"application/json\", schema = @Schema(implementation = String.class))),\n"
                     + TAB + TAB + TAB + "@ApiResponse(description = \"无权限\", responseCode = \"403\", content = @Content(schema = @Schema(hidden = true))),\n"
                     + TAB + TAB + TAB + "@ApiResponse(description = \"参数无效\", responseCode = \"400\", content = @Content(schema = @Schema(hidden = true))),\n"
