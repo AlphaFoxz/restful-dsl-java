@@ -1,6 +1,6 @@
 namespace java com.github.alphafoxz.restful_dsl.starter.gen.restl.apis
 namespace ts gen.restl.apis
-namespace rs gen.restl.apis
+namespace rs gen.restful_dsl.apis
 
 import "../dtos/RestfulDslResponseDto.restl"
 import "../dtos/RestfulDslRequestDto.restl"
