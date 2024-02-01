@@ -34,6 +34,10 @@ subprojects {
         }
         dependencies {
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+            dependency("cn.hutool:hutool-core:5.8.25")
+            dependency("cn.hutool:hutool-crypto:5.8.25")
+            dependency("cn.hutool:hutool-json:5.8.25")
+            dependency("cn.hutool:hutool-extra:5.8.25")
             dependency("cn.hutool:hutool-all:5.8.25")
         }
     }
