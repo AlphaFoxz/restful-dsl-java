@@ -1,10 +1,8 @@
 package com.github.alphafoxz.restful_dsl.starter.service.gen;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.github.alphafoxz.restful_dsl.starter.RestfulDslConstants;
@@ -22,8 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -52,8 +48,8 @@ public class RestfulDslGenCodeService {
         // 检查基本SDK环境
         RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
-            log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
-            result.setMessage("检查thrift时发现错误");
+            log.error("检查restl时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查restl时发现错误");
             return result;
         }
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
@@ -80,8 +76,8 @@ public class RestfulDslGenCodeService {
         // 检查基本SDK环境
         RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
-            log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
-            result.setMessage("检查thrift时发现错误");
+            log.error("检查restl时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查restl时发现错误");
             return result;
         }
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
@@ -108,8 +104,8 @@ public class RestfulDslGenCodeService {
         // 检查基本SDK环境
         RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
-            log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
-            result.setMessage("检查thrift时发现错误");
+            log.error("检查restl时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查restl时发现错误");
             return result;
         }
         // 映射语法树
@@ -144,8 +140,8 @@ public class RestfulDslGenCodeService {
         // 检查基本SDK环境
         RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
         if (!checkInfo.getSuccess()) {
-            log.error("检查thrift时发现错误 {}", checkInfo.getMessage());
-            result.setMessage("检查thrift时发现错误");
+            log.error("检查restl时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查restl时发现错误");
             return result;
         }
         ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRootBean;
@@ -179,29 +175,5 @@ public class RestfulDslGenCodeService {
             throw new RuntimeException("语法树中缺少namespace");
         }
         return restfulRoot;
-    }
-
-    private String readJavaNamespace(File thriftFile) {
-        if (!StrUtil.endWithIgnoreCase(thriftFile.getName(), "thrift")) {
-            log.error("{} 拓展名错误！不是一个有效的thrift文件", thriftFile.getAbsolutePath());
-            return null;
-        }
-        List<String> content = CollUtil.newArrayList();
-        FileUtil.readLines(thriftFile, StandardCharsets.UTF_8, content);
-        for (String lineStr : content) {
-            lineStr = lineStr.trim();
-            if (lineStr.startsWith("namespace") && ReUtil.isMatch("^namespace[\\s]+java[\\s]+[^\\s]+$", lineStr)) {
-                return lineStr.split("\\s")[2];
-            }
-        }
-        log.error("thrift文件缺少namespace");
-        return null;
-    }
-
-    private void fixFile(String path) {
-        for (File file : FileUtil.loopFiles(path)) {
-            String s = FileUtil.readUtf8String(file);
-            FileUtil.writeUtf8String(StrUtil.replace(s, "@javax.annotation.Generated", "@javax.annotation.processing.Generated"), file);
-        }
     }
 }

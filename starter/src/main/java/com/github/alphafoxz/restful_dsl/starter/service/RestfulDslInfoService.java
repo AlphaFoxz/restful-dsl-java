@@ -52,8 +52,8 @@ public class RestfulDslInfoService {
                     FileUtil.mkdir(restfulPath + FILE_SEPARATOR + moduleName + FILE_SEPARATOR + "enums");
                 }
             } catch (Exception e) {
-                log.error("sdk初始化thrift各目录异常", e);
-                errors.add("sdk初始化thrift各目录异常：" + ExceptionUtil.getSimpleMessage(e));
+                log.error("sdk初始化restl目录异常", e);
+                errors.add("sdk初始化restl目录异常：" + ExceptionUtil.getSimpleMessage(e));
             }
         }
         if (!errors.isEmpty()) {
