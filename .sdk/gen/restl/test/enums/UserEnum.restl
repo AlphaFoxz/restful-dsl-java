@@ -1,5 +1,5 @@
-namespace java com.github.alphafoxz.restful_dsl.test.gen.restful.enums
-namespace ts gen.restful_dsl.enums
+namespace java com.github.alphafoxz.restful_dsl.test.gen.restl.enums
+namespace ts gen.restl.enums
 
 /*用户性别枚举*/
 enum UserGenderEnum {

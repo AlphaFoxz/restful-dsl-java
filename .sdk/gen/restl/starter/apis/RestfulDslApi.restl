@@ -1,10 +1,10 @@
-namespace java com.github.alphafoxz.restful_dsl.starter.gen.restful.apis
-namespace ts gen.restful_dsl.apis
-namespace rs gen.restful_dsl.apis
+namespace java com.github.alphafoxz.restful_dsl.starter.gen.restl.apis
+namespace ts gen.restl.apis
+namespace rs gen.restl.apis
 
-import "../dtos/RestfulDslResponseDto.restful"
-import "../dtos/RestfulDslRequestDto.restful"
-import "../dtos/RestfulDslVersionDto.restful"
+import "../dtos/RestfulDslResponseDto.restl"
+import "../dtos/RestfulDslRequestDto.restl"
+import "../dtos/RestfulDslVersionDto.restl"
 
 /* restful-dsl接口 */
 @uri(/_restfulDsl)

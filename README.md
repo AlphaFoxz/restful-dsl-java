@@ -186,7 +186,7 @@ optional string title
 引用另一个文件（相对路径），可以使用其中的class或enum，用法：
 
 ```
-import "../dots/FileDto.restful"
+import "../dots/FileDto.restl"
 ```
 
 ### 关键字-命名空间
@@ -282,13 +282,13 @@ boolean upload(binary file, string customAttr)
 
 ### 例1：增删改查
 
-`apis/UserApi.restful`内容
+`apis/UserApi.restl`内容
 
 ```
-namespace java com.github.alphafoxz.restful_dsl.gen.restful.apis
+namespace java com.github.alphafoxz.restful_dsl.gen.restl.apis
 namespace ts gen.biz_test.apis
 
-import "../dtos/UserDto.restful"
+import "../dtos/UserDto.restl"
 
 /*用户接口*/
 @uri(/user)
@@ -321,13 +321,13 @@ interface UserApi {
 }
 ```
 
-`dtos/UserDto.restful`内容
+`dtos/UserDto.restl`内容
 
 ```
-namespace java com.github.alphafoxz.restful_dsl.gen.restful.dtos
+namespace java com.github.alphafoxz.restful_dsl.gen.restl.dtos
 namespace ts gen.biz_test.dtos
 
-import "../enums/UserEnum.restful"
+import "../enums/UserEnum.restl"
 
 /*用户简易dto*/
 class UserSimpleDto {
@@ -366,10 +366,10 @@ class UserDto {
 }
 ```
 
-`enums/UserEnum.restful`内容
+`enums/UserEnum.restl`内容
 
 ```
-namespace java com.github.alphafoxz.restful_dsl.gen.restful.enums
+namespace java com.github.alphafoxz.restful_dsl.gen.restl.enums
 namespace ts gen.biz_test.enums
 
 /*用户性别枚举*/
@@ -393,10 +393,10 @@ enum UserTypeEnum {
 
 ### 例2：上传/下载文件
 
-`apis/FileApi.restful`内容
+`apis/FileApi.restl`内容
 
 ```
-namespace java com.github.alphafoxz.restful_dsl.gen.restful.apis
+namespace java com.github.alphafoxz.restful_dsl.gen.restl.apis
 namespace ts gen.biz_test.apis
 
 /*文件接口*/

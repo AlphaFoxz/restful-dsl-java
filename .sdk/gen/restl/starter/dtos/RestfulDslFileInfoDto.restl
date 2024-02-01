@@ -1,8 +1,8 @@
-namespace java com.github.alphafoxz.restful_dsl.starter.gen.restful.dtos
-namespace ts gen.restful_dsl.dtos
-namespace rs gen.restful_dsl.dtos
+namespace java com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos
+namespace ts gen.restl.dtos
+namespace rs gen.restl.dtos
 
-import "../enums/RestfulDslFileTypeEnum.restful"
+import "../enums/RestfulDslFileTypeEnum.restl"
 
 class RestfulDslFileInfoDto {
     required string filePath
