@@ -1,7 +1,7 @@
 package com.github.alphafoxz.restful_dsl.starter.controller;
 
-import com.github.alphafoxz.restful_dsl.starter.gen.restful.apis.RestfulDslApi;
-import com.github.alphafoxz.restful_dsl.starter.gen.restful.dtos.*;
+import com.github.alphafoxz.restful_dsl.starter.gen.restl.apis.RestfulDslApi;
+import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.*;
 import com.github.alphafoxz.restful_dsl.starter.service.RestfulDslInfoService;
 import com.github.alphafoxz.restful_dsl.starter.service.gen.RestfulDslGenCodeService;
 import com.github.alphafoxz.restful_dsl.starter.service.version.RestfulDslVersionCheckService;

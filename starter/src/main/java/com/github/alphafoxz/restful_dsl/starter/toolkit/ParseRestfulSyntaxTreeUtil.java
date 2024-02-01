@@ -8,7 +8,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.github.alphafoxz.restful_dsl.starter.configuration.RestfulDslProperties;
 import com.github.alphafoxz.restful_dsl.starter.exception.RestfulDslException;
-import com.github.alphafoxz.restful_dsl.starter.gen.restful.dtos.RestfulDslCodeTemplateDto;
+import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.RestfulDslCodeTemplateDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
