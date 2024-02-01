@@ -3,7 +3,6 @@ package com.github.alphafoxz.restful_dsl.starter.service.gen.code;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.github.alphafoxz.restful_dsl.starter.RestfulDslConstants;
 import com.github.alphafoxz.restful_dsl.starter.configuration.RestfulDslProperties;
@@ -26,7 +25,6 @@ import java.util.StringJoiner;
 @Service
 public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
     private static final String TAB = "    ";
-    private static final String PAGE_CLASS_NAME = SpringUtil.getBean(RestfulDslProperties.class).getPageClass();
     private final List<String> postAnnoList = CollUtil.newArrayList("PostMapping", "PutMapping", "PatchMapping");
     @Resource
     private RestfulDslProperties restfulDslProperties;
@@ -311,8 +309,9 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         }
         if (isPage) {
             String pageSimpleName = "Page";
-            if (StrUtil.contains(PAGE_CLASS_NAME, ".")) {
-                pageSimpleName = PAGE_CLASS_NAME.substring(PAGE_CLASS_NAME.lastIndexOf(".") + 1);
+            String pageClassName = restfulDslProperties.getPageClass();
+            if (StrUtil.contains(pageClassName, ".")) {
+                pageSimpleName = pageClassName.substring(pageClassName.lastIndexOf(".") + 1);
             }
             returnType = pageSimpleName + "<" + returnType + ">";
         }
