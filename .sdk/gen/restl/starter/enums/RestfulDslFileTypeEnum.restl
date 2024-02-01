@@ -1,0 +1,11 @@
+namespace java com.github.alphafoxz.restful_dsl.starter.gen.restl.enums
+namespace ts gen.restl.enums
+namespace rs gen.restl.enums
+
+/* 文件类型 */
+enum RestfulDslFileTypeEnum {
+    /* 本地文件 */
+    LOCAL_FILE = 0
+    /* 本地文件夹 */
+    LOCAL_DIR = 1
+}

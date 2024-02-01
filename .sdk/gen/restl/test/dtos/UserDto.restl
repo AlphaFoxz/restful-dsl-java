@@ -1,7 +1,7 @@
-namespace java com.github.alphafoxz.restful_dsl.test.gen.restful.dtos
-namespace ts gen.restful_dsl.dtos
+namespace java com.github.alphafoxz.restful_dsl.test.gen.restl.dtos
+namespace ts gen.restl.dtos
 
-import "../enums/UserEnum.restful"
+import "../enums/UserEnum.restl"
 
 /*用户简易dto*/
 class UserSimpleDto {

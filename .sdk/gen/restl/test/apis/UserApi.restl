@@ -1,7 +1,7 @@
-namespace java com.github.alphafoxz.restful_dsl.test.gen.restful.apis
-namespace ts gen.restful_dsl.apis
+namespace java com.github.alphafoxz.restful_dsl.test.gen.restl.apis
+namespace ts gen.restl.apis
 
-import "../dtos/UserDto.restful"
+import "../dtos/UserDto.restl"
 
 /*用户接口*/
 @uri(/user)

@@ -21,7 +21,7 @@ public enum RestfulDslConstants {
         initProjectPath();
         SDK_PATH = PROJECT_ROOT_PATH + FILE_SEPARATOR + ".sdk";
         SDK_GEN_PATH = SDK_PATH + FILE_SEPARATOR + "gen";
-        SDK_GEN_RESTFUL_TEMPLATE_PATH = SDK_GEN_PATH + FILE_SEPARATOR + "restful";
+        SDK_GEN_RESTFUL_TEMPLATE_PATH = SDK_GEN_PATH + FILE_SEPARATOR + "restl";
         SDK_VERSION_PATH = SDK_PATH + FILE_SEPARATOR + "version";
         SDK_BIN_PATH = SDK_PATH + FILE_SEPARATOR + "bin";
     }

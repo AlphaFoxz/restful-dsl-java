@@ -37,7 +37,7 @@ public class RestfulDslVersionCheckService {
         Map<String, RestfulDslVersionCheckDto> checkResult = MapUtil.newHashMap();
         for (File file : FileUtil.loopFiles(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH)) {
             RestfulDslVersionCheckDto dto = new RestfulDslVersionCheckDto();
-            if (!StrUtil.endWithIgnoreCase(file.getName(), ".restful") || !file.isFile()) {
+            if (!StrUtil.endWithIgnoreCase(file.getName(), ".restl") || !file.isFile()) {
                 continue;
             }
             String key = file.getAbsolutePath().replace(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH, "");
@@ -62,7 +62,7 @@ public class RestfulDslVersionCheckService {
                 RestfulDslVersionCheckDto dto = new RestfulDslVersionCheckDto();
                 dto.setFilePath(entry.getKey());
                 dto.setSha256(entry.getValue().toString());
-                dto.setMessage("该文件生成过java代码，但这个restful模板现在已经不存在或改名了，请留意");
+                dto.setMessage("该文件生成过java代码，但这个restl模板现在已经不存在或改名了，请留意");
                 dto.setSame(false);
                 checkResult.put(entry.getKey(), dto);
             }
@@ -84,7 +84,7 @@ public class RestfulDslVersionCheckService {
         List<RestfulDslVersionCheckDto> resultList = CollUtil.newArrayList();
         for (File file : FileUtil.loopFiles(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH)) {
             RestfulDslVersionCheckDto dto = new RestfulDslVersionCheckDto();
-            if (!StrUtil.endWithIgnoreCase(file.getName(), ".restful") || !file.isFile()) {
+            if (!StrUtil.endWithIgnoreCase(file.getName(), ".restl") || !file.isFile()) {
                 continue;
             }
             String key = file.getAbsolutePath().replace(RestfulDslConstants.SDK_GEN_RESTFUL_TEMPLATE_PATH, "");

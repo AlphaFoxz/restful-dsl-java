@@ -8,11 +8,11 @@ import java.util.List;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "dsl.restful")
+@ConfigurationProperties(prefix = "dsl.restl")
 public class RestfulDslProperties {
     private String basePackage = "com.github.alphafoxz";
     private List<String> includeModules;
-    private String codePackage = "gen.restful";
+    private String codePackage = "gen.restl";
     private String httpControllerClass = "HttpController";
     private String pageClass = "org.springframework.data.domain.Page";
 }
