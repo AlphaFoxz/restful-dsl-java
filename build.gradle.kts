@@ -6,18 +6,21 @@ plugins {
     id("io.spring.dependency-management")
     id("maven-publish")
 }
-allprojects {
-    group = restulDslGroup
-    version = restulDslVersion
-    repositories {
-        mavenCentral()
-    }
-}
 tasks.bootJar {
     enabled = false
 }
 tasks.jar {
     enabled = false
+}
+allprojects {
+    group = restulDslGroup
+    version = restulDslVersion
+    repositories {
+        mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+        }
+    }
 }
 subprojects {
     apply(plugin = "java")
@@ -27,6 +30,10 @@ subprojects {
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    tasks.jar {
+        enabled = true
+        archiveClassifier.set("")
     }
     dependencyManagement {
         imports {

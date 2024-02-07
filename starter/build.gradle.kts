@@ -3,10 +3,6 @@ var restulDslVersion = "3.0.0-alpha.3"
 tasks.bootJar {
     enabled = false
 }
-tasks.jar {
-    enabled = true
-    archiveClassifier.set("")
-}
 dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui")
