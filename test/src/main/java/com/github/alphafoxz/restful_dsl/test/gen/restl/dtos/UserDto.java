@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import com.github.alphafoxz.restful_dsl.test.gen.restl.enums.UserGenderEnum;
 import java.util.List;
 import org.springframework.lang.Nullable;
 import com.github.alphafoxz.restful_dsl.test.gen.restl.enums.UserTypeEnum;
-import com.github.alphafoxz.restful_dsl.test.gen.restl.enums.UserGenderEnum;
 
 @Schema(name = "UserDto", description = "用户dto")
 @Accessors(chain = true)

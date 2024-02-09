@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.lang.Nullable;
 
-@RequestMapping({"/file"})
+@RequestMapping({"/test/file"})
 @Tag(name = "FileApi", description = "文件接口")
 public interface FileApi extends HttpController {
     // 客户端对应类似这样一个表单：

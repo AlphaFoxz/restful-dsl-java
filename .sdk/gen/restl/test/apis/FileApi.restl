@@ -2,7 +2,7 @@ namespace java com.github.alphafoxz.restful_dsl.test.gen.restl.apis
 namespace ts gen.restl.apis
 
 /*文件接口*/
-@uri(/file)
+@uri(/test/file)
 interface FileApi {
     //客户端对应类似这样一个表单：
     //<form>
