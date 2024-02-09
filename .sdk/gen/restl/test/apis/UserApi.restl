@@ -4,7 +4,7 @@ namespace ts gen.restl.apis
 import "../dtos/UserDto.restl"
 
 /*用户接口*/
-@uri(/user)
+@uri(/test/user)
 interface UserApi {
     /*根据id查询用户*/
     @getUri(/query/{id})

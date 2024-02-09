@@ -2,6 +2,11 @@ debug: true
 server:
   port: 8080
 
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 dsl:
   restl:
     base-package: com.github.alphafoxz.restful_dsl

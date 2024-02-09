@@ -20,7 +20,7 @@ import org.springframework.lang.Nullable;
 import com.github.alphafoxz.restful_dsl.test.gen.restl.dtos.UserSimpleDto;
 import com.github.alphafoxz.restful_dsl.test.gen.restl.dtos.UserDto;
 
-@RequestMapping({"/user"})
+@RequestMapping({"/test/user"})
 @Tag(name = "UserApi", description = "用户接口")
 public interface UserApi extends HttpController {
     @GetMapping(value = {"/query/{id}"})
