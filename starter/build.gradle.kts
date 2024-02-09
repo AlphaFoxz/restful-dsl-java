@@ -4,6 +4,7 @@ tasks.bootJar {
     enabled = false
 }
 dependencies {
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     compileOnly("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.springdoc:springdoc-openapi-starter-webmvc-ui")
     compileOnly("cn.hutool:hutool-core")

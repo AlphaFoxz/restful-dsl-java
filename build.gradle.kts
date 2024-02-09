@@ -1,7 +1,7 @@
 var restulDslGroup = "com.github.alphafoxz.restful-dsl-java"
 var restulDslVersion = "3.0.0-alpha.3"
 plugins {
-    id("java")
+    id("java-library")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("maven-publish")
@@ -23,7 +23,7 @@ allprojects {
     }
 }
 subprojects {
-    apply(plugin = "java")
+    apply(plugin = "java-library")
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "maven-publish")
@@ -40,6 +40,7 @@ subprojects {
             org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
         }
         dependencies {
+            dependency("com.google.code.findbugs:jsr305:3.0.2")
             dependency("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
             dependency("cn.hutool:hutool-core:5.8.25")
             dependency("cn.hutool:hutool-crypto:5.8.25")
