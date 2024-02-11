@@ -10,8 +10,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
     implementation("cn.hutool:hutool-all")
 
-//    implementation(project(":starter"))
-    implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:v3.0.0-alpha.3")
+    implementation(project(":starter"))
+//    implementation("com.github.AlphaFoxz.restful-dsl-java:spring-boot-starter-restful-dsl:v3.0.0-alpha.3")
 }
 publishing {
     publications {
