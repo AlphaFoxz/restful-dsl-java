@@ -233,6 +233,13 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         refEnumDesc.setEmptyValue("");
         Set<String> pathVarSet = CollUtil.newHashSet();
         {
+            //解析普通注释
+            List<ParseRestfulSyntaxTreeUtil.CommentBean> commentList = interfaceFunction.getCommentList();
+            if (CollUtil.isNotEmpty(commentList)) {
+                for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : commentList) {
+                    code.add(TAB + "// " + commentBean.getCommentValue().trim());
+                }
+            }
             //处理枚举说明
             boolean hasRefEnum = false;
             for (ParseRestfulSyntaxTreeUtil.ParamBean paramBean : interfaceFunction.getParamList()) {
@@ -244,13 +251,6 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             }
             if (hasRefEnum) {
                 code.add(refEnumDesc.toString());
-            }
-            //解析普通注释
-            List<ParseRestfulSyntaxTreeUtil.CommentBean> commentList = interfaceFunction.getCommentList();
-            if (CollUtil.isNotEmpty(commentList)) {
-                for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : commentList) {
-                    code.add(TAB + "// " + commentBean.getCommentValue().trim());
-                }
             }
             //解析@interface注解
             for (Map.Entry<String, List<String>> annoEntry : interfaceFunction.getAnnotationMap().entrySet()) {
