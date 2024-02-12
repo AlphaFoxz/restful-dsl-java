@@ -2,7 +2,7 @@
 
 # RESTful-DSL (RESTful领域特定语言)
 
-<img src="docs/logo.png" style="height: 8rem; width: auto;" alt="logo.png"/>
+<img src="./logo.png" style="height: 8rem; width: auto;" alt="logo.png"/>
 
 restful-dsl是一个RESTful风格接口领域特定语言。是“面向接口开发”的一个实现。
 
