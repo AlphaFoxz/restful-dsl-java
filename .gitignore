@@ -4,6 +4,8 @@
 /build
 /*/build
 
+#IDE files
+/.idea
 
 # Log file
 *.log
