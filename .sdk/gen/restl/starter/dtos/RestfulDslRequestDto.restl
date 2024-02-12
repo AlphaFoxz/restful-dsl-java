@@ -5,31 +5,31 @@ namespace rs gen.restful_dsl.dtos
 import "./RestfulDslCodeTemplateDto.restl"
 
 class RestfulDslListRequestDto {
-    required long id
-    required long taskId
-    required list<string> data
+    long id
+    long taskId
+    list<string> data
 }
 
 class RestfulDslMapRequestDto {
-    required long id
-    required long taskId
-    required map<string, string> data
+    long id
+    long taskId
+    map<string, string> data
 }
 
 class RestfulDslStringRequestDto {
-    required long id
-    required long taskId
-    required string data
+    long id
+    long taskId
+    string data
 }
 
 class RestfulDslLongRequestDto {
-    required long id
-    required long taskId
-    required long data
+    long id
+    long taskId
+    long data
 }
 
 class RestfulDslCodeTemplateRequestDto {
-    required long id
-    required long taskId
-    required RestfulDslCodeTemplateDto.RestfulDslCodeTemplateDto data
+    long id
+    long taskId
+    RestfulDslCodeTemplateDto.RestfulDslCodeTemplateDto data
 }

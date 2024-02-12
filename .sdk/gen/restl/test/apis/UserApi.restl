@@ -15,9 +15,9 @@ interface UserApi {
     @page
     @getUri(/queryPage/{pageNum}/{pageSize})
     UserDto.UserDto queryPage(
-            /*页码*/required i32 pageNum,
-            /*每页条数*/required i32 pageSize,
-            /*可选 筛选用户名*/optional string username
+            /*页码*/i32 pageNum,
+            /*每页条数*/i32 pageSize,
+            /*可选 筛选用户名*/string username?
     )
 
     /*注册用户*/

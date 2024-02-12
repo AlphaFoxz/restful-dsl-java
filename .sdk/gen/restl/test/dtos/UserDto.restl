@@ -21,20 +21,20 @@ class UserSimpleDto {
 /*用户dto*/
 class UserDto {
     /*主键*/
-    required i64 id
+    i64 id
 
     /*姓名*/
-    required string username
+    string username
 
     /*用户类型*/
-    required enum<UserEnum.UserTypeEnum> userType
+    enum<UserEnum.UserTypeEnum> userType
 
     /*权限*/
-    required list<string> roles
+    list<string> roles
 
     /*邮箱*/
-    optional string email
+    string email?
 
     /*性别*/
-    optional enum<UserEnum.UserGenderEnum> gender
+    enum<UserEnum.UserGenderEnum> gender?
 }
