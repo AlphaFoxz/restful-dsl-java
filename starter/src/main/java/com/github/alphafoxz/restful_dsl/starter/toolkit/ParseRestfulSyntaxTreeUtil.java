@@ -216,7 +216,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         public static class ClassFieldBean {
             private CommentBean doc;
             private final List<CommentBean> commentList = CollUtil.newArrayList();
-            private Modifier modifier;
+            private boolean required = true;
             private TypeBean type;
             private String fieldName;
             private final Set<String> importTypeName = CollUtil.newHashSet();
@@ -348,7 +348,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             SQL_INTYPE_MAP.put(Intypes.STRING, "varchar(200)");
         }
 
-        private Modifier modifier = Modifier.REQUIRED;
+        private boolean required = true;
         private String token;
         private String javaSimpleName;
         private String tsSimpleName;
@@ -425,7 +425,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         private CommentBean doc;
         private TypeBean paramType;
         private String paramName;
-        private Modifier modifier;
+        private boolean required = true;
         private final Set<String> importTypeName = CollUtil.newHashSet();
 
         public void setParamType(TypeBean paramType) {
@@ -439,20 +439,6 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
         private String annotationName;
         private List<String> annotationValueList = CollUtil.newArrayList();
         private final Set<String> importTypeName = CollUtil.newHashSet();
-    }
-
-    public static enum Modifier {
-        REQUIRED,
-        OPTIONAL;
-
-        public static Modifier getEnumByName(String name) {
-            for (Modifier value : Modifier.values()) {
-                if (value.name().equalsIgnoreCase(name.trim())) {
-                    return value;
-                }
-            }
-            return null;
-        }
     }
 
     private static class RootBeanBuilder {
@@ -823,36 +809,38 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
 
         public ClassBean.ClassFieldBean parseClassField(Map classFieldAst) {
             ClassBean.ClassFieldBean result = new ClassBean.ClassFieldBean();
-            Modifier modifier = Modifier.REQUIRED;
+            boolean required = true;
+            for (Map pairMap : (List<Map>) classFieldAst.get(PAIRS)) {
+                String ruleName = (String) pairMap.get(RULE);
+                if (ruleName.equals(REQUIRED)) {
+                    required = parseRequired((String) pairMap.get(INNER));
+                }
+            }
             for (Map pairMap : (List<Map>) classFieldAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
-                    case MODIFIER: {
-                        modifier = Modifier.getEnumByName((String) pairMap.get(INNER));
-                        break;
-                    }
                     case CONTAIN_LIST: {
-                        result.setType(parseContainList((Map) pairMap.get(INNER), modifier));
+                        result.setType(parseContainList((Map) pairMap.get(INNER), required));
                         break;
                     }
                     case CONTAIN_MAP: {
-                        result.setType(parseContainMap((Map) pairMap.get(INNER), modifier));
+                        result.setType(parseContainMap((Map) pairMap.get(INNER), required));
                         break;
                     }
                     case CONTAIN_SET: {
-                        result.setType(parseContainSet((Map) pairMap.get(INNER), modifier));
+                        result.setType(parseContainSet((Map) pairMap.get(INNER), required));
                         break;
                     }
                     case REF_ENUM: {
-                        result.setType(parseRefEnum((Map) pairMap.get(INNER), modifier));
+                        result.setType(parseRefEnum((Map) pairMap.get(INNER), required));
                         break;
                     }
                     case INTYPE: {
-                        result.setType(parseIntype((String) pairMap.get(INNER), modifier));
+                        result.setType(parseIntype((String) pairMap.get(INNER), required));
                         break;
                     }
                     case UTYPE: {
-                        result.setType(parseUtype((Map) pairMap.get(INNER), modifier));
+                        result.setType(parseUtype((Map) pairMap.get(INNER), required));
                         break;
                     }
                     case CLASS_FIELD_NAME: {
@@ -861,8 +849,8 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     }
                 }
             }
-            result.setModifier(modifier);
-            if (Modifier.OPTIONAL.equals(modifier)) {
+            result.setRequired(required);
+            if (!required) {
                 result.getImportTypeName().add(Nullable.class.getName());
             }
             return result;
@@ -923,7 +911,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
                     case TYPE: {
-                        result.setReturnType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), Modifier.REQUIRED)));
+                        result.setReturnType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), true)));
                         break;
                     }
                     case VOID: { // 没有返回值
@@ -949,7 +937,7 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     case PARAM: {
                         result.getImportTypeName().add("io.swagger.v3.oas.annotations.Parameter");
                         ParamBean param = parseParam((Map) pairMap.get(INNER));
-                        if (Modifier.OPTIONAL.equals(param.getModifier())) {
+                        if (!param.isRequired()) {
                             result.getImportTypeName().add(Nullable.class.getName());
                         }
                         if (doc != null) {
@@ -966,16 +954,18 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
 
         public ParamBean parseParam(Map paramAst) {
             ParamBean result = new ParamBean();
-            Modifier modifier = Modifier.REQUIRED;
+            boolean required = true;
+            for (Map pairMap : (List<Map>) paramAst.get(PAIRS)) {
+                String ruleName = (String) pairMap.get(RULE);
+                if (ruleName.equals(REQUIRED)) {
+                    required = parseRequired((String) pairMap.get(INNER));
+                }
+            }
             for (Map pairMap : (List<Map>) paramAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 switch (ruleName) {
-                    case MODIFIER: {
-                        modifier = Modifier.getEnumByName((String) pairMap.get(INNER));
-                        break;
-                    }
                     case TYPE: {
-                        result.setParamType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), modifier)));
+                        result.setParamType(Objects.requireNonNull(parseType((Map) pairMap.get(INNER), required)));
                         break;
                     }
                     case PARAM_NAME: {
@@ -984,44 +974,47 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                     }
                 }
             }
-            result.setModifier(modifier);
+            result.setRequired(required);
             return result;
         }
 
-        public TypeBean parseType(Map typeAst, Modifier modifier) {
+        public boolean parseRequired(String requiredMark) {
+            return StrUtil.isNotBlank(requiredMark) && !requiredMark.trim().equals("?");
+        }
+
+        public TypeBean parseType(Map typeAst, boolean required) {
             for (Map pairMap : (List<Map>) typeAst.get(PAIRS)) {
                 String ruleName = (String) pairMap.get(RULE);
                 TypeBean result;
-
                 switch (ruleName) {
                     case INTYPE: {
-                        result = parseIntype((String) pairMap.get(INNER), modifier);
+                        result = parseIntype((String) pairMap.get(INNER), required);
                         break;
                     }
                     case CONTAIN_MAP: {
-                        result = parseContainMap((Map) pairMap.get(INNER), modifier);
+                        result = parseContainMap((Map) pairMap.get(INNER), required);
                         break;
                     }
                     case CONTAIN_LIST: {
-                        result = parseContainList((Map) pairMap.get(INNER), modifier);
+                        result = parseContainList((Map) pairMap.get(INNER), required);
                         break;
                     }
                     case CONTAIN_SET: {
-                        result = parseContainSet((Map) pairMap.get(INNER), modifier);
+                        result = parseContainSet((Map) pairMap.get(INNER), required);
                         break;
                     }
                     case REF_ENUM: {
-                        result = parseRefEnum((Map) pairMap.get(INNER), modifier);
+                        result = parseRefEnum((Map) pairMap.get(INNER), required);
                         break;
                     }
                     case UTYPE: {
-                        result = parseUtype((Map) pairMap.get(INNER), modifier);
+                        result = parseUtype((Map) pairMap.get(INNER), required);
                         break;
                     }
                     default:
                         throw new RestfulDslException("unknown type rule: " + ruleName, HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                if (Modifier.OPTIONAL.equals(modifier)) {
+                if (!required) {
                     result.getImportJavaTypeName().add(Nullable.class.getName());
                 }
                 return result;
@@ -1029,11 +1022,11 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             return null;
         }
 
-        public TypeBean parseIntype(String intypeString, Modifier modifier) {
+        public TypeBean parseIntype(String intypeString, boolean required) {
             TypeBean result = new TypeBean();
             result.setIntype(true);
             result.setToken(intypeString);
-            result.setModifier(modifier);
+            result.setRequired(required);
             result.setJavaSimpleName(TypeBean.JAVA_INTYPE_MAP.get(intypeString));
             result.setTsSimpleName(TypeBean.TS_INTYPE_MAP.get(intypeString));
             result.setRustSimpleName(TypeBean.RUST_INTYPE_MAP.get(intypeString));
@@ -1041,10 +1034,10 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             return result;
         }
 
-        public TypeBean parseContainMap(Map ast, Modifier modifier) {
+        public TypeBean parseContainMap(Map ast, boolean required) {
             TypeBean result = new TypeBean();
             result.setToken(CONTAIN_MAP);
-            result.setModifier(modifier);
+            result.setRequired(required);
             result.setJavaSimpleName("Map");
             result.setTsSimpleName("Record");
             result.setRustSimpleName("std::collections::HashMap");
@@ -1055,16 +1048,16 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_MAP_KEYTYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
+                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), true)));
                 } else if (CONTAIN_MAP_VALUETYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT2(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
+                    result.setT2(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), true)));
                 }
             }
             return result;
         }
 
-        public TypeBean parseContainList(Map ast, Modifier modifier) {
+        public TypeBean parseContainList(Map ast, boolean required) {
             TypeBean result = new TypeBean();
             result.setToken(CONTAIN_LIST);
             result.setJavaSimpleName("List");
@@ -1077,15 +1070,15 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_LIST_TYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
+                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), true)));
                 }
             }
             return result;
         }
 
-        public TypeBean parseContainSet(Map ast, Modifier modifier) {
+        public TypeBean parseContainSet(Map ast, boolean required) {
             TypeBean result = new TypeBean();
-            result.setModifier(modifier);
+            result.setRequired(required);
             result.setToken(CONTAIN_SET);
             result.setJavaSimpleName("Set");
             result.setTsSimpleName("");
@@ -1097,20 +1090,16 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (CONTAIN_SET_TYPE.equals(innerRuleName)) {
                     Map lastMap = (Map) ((List) ((Map) innerMap.get(INNER)).get(PAIRS)).get(0);
-                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), Modifier.REQUIRED)));
+                    result.setT1(Objects.requireNonNull(parseType((Map) lastMap.get(INNER), true)));
                 }
             }
             return result;
         }
 
-        public TypeBean parseRefEnum(Map ast, Modifier modifier) {
+        public TypeBean parseRefEnum(Map ast, boolean required) {
             TypeBean result = new TypeBean();
             result.setToken(REF_ENUM);
-//            if (Modifier.REQUIRED.equals(modifier)) {
-//                result.setJavaSimpleName("int");
-//            } else {
             result.setJavaSimpleName("Integer");
-//            }
             result.setTsSimpleName("number");
             result.setRustSimpleName("i32");
             result.setSqlSimpleName("integer");
@@ -1118,13 +1107,13 @@ public final class ParseRestfulSyntaxTreeUtil implements RestfulTokenDefine {
             for (Map innerMap : (List<Map>) ast.get(PAIRS)) {
                 String innerRuleName = (String) innerMap.get(RULE);
                 if (UTYPE.equals(innerRuleName)) {
-                    result.setT1(parseUtype((Map) innerMap.get(INNER), Modifier.REQUIRED));
+                    result.setT1(parseUtype((Map) innerMap.get(INNER), true));
                 }
             }
             return result;
         }
 
-        public TypeBean parseUtype(Map ast, Modifier modifier) {
+        public TypeBean parseUtype(Map ast, boolean required) {
             TypeBean result = new TypeBean();
             String importJavaPackage = null;
             String importTsTypeName = "";

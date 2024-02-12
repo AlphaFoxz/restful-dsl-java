@@ -4,8 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.RestfulDslFileInfoDto;
 import org.springframework.lang.Nullable;
+import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.RestfulDslFileInfoDto;
 
 // 响应体的data字段是RestfulDslFileInfoDto
 @Schema(name = "RestfulDslFileTreeResponseDto", description = "文件树响应实体")

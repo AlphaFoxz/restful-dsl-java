@@ -78,7 +78,7 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                     code.add(StrUtil.format(innerDocFormat, fieldBean.getDoc().getCommentValue()));
                 }
                 String fieldRustString = fieldBean.getType().rustString();
-                if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier())) {
+                if (!fieldBean.isRequired()) {
                     fieldRustString = "Option<" + fieldRustString + ">";
                 }
                 code.add(TAB + "pub " + StrUtil.toUnderlineCase(fieldBean.getFieldName()) + ": " + fieldRustString + ",");
@@ -318,7 +318,7 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
         StringJoiner paramStringJoiner = new StringJoiner(", ", "(", ")");
         for (ParseRestfulSyntaxTreeUtil.ParamBean param : interfaceFunction.getParamList()) {
             String otherType = "";
-            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+            if (!param.isRequired()) {
                 otherType += " | undefined";
             }
             paramStringJoiner.add("_" + StrUtil.toUnderlineCase(param.getParamName()) + ": " + param.getParamType().rustString() + otherType);

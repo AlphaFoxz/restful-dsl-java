@@ -89,7 +89,7 @@ public class RestfulDslGenTsClient implements RestfulCodeGenerator {
                 if (fieldBean.getDoc() != null) {
                     code.add(StrUtil.format(innerDocFormat, fieldBean.getDoc().getCommentValue()));
                 }
-                String fieldTsString = fieldBean.getType().tsString() + (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier()) ? " | undefined" : "");
+                String fieldTsString = fieldBean.getType().tsString() + (!fieldBean.isRequired() ? " | undefined" : "");
                 code.add(TAB + fieldBean.getFieldName() + ": " + fieldTsString);
             }
             code.add("}");
@@ -291,7 +291,7 @@ public class RestfulDslGenTsClient implements RestfulCodeGenerator {
         StringJoiner paramStringJoiner = new StringJoiner(", ", "(", ")");
         for (ParseRestfulSyntaxTreeUtil.ParamBean param : interfaceFunction.getParamList()) {
             String otherType = "";
-            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+            if (!param.isRequired()) {
                 otherType += " | undefined";
             }
             paramStringJoiner.add("p_" + param.getParamName() + ": " + param.getParamType().tsString() + otherType);
@@ -335,7 +335,7 @@ public class RestfulDslGenTsClient implements RestfulCodeGenerator {
         { // 针对restful设计字段进行重载
             StringJoiner paramCode = new StringJoiner(", ");
             for (ParseRestfulSyntaxTreeUtil.ParamBean paramBean : interfaceFunction.getParamList()) {
-                String otherType = ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(paramBean.getParamType().getModifier()) ? " | undefined" : "";
+                String otherType = !paramBean.getParamType().isRequired() ? " | undefined" : "";
                 paramCode.add("p_" + paramBean.getParamName() + ": " + paramBean.getParamType().tsString() + otherType);
             }
             result.add(TAB + "export async function " + interfaceFunction.getFunctionName() + "(" + paramCode + "): " + returnTypeString);
@@ -351,7 +351,7 @@ public class RestfulDslGenTsClient implements RestfulCodeGenerator {
             for (int i = 0; i < interfaceFunction.getParamList().size(); i++) {
                 ParseRestfulSyntaxTreeUtil.ParamBean paramBean = interfaceFunction.getParamList().get(i);
                 if (i == 0) {
-                    String otherType = ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(paramBean.getParamType().getModifier()) ? " | undefined" : "";
+                    String otherType = !paramBean.getParamType().isRequired() ? " | undefined" : "";
                     otherType += " | FormData";
                     paramCode.add("p_" + paramBean.getParamName() + ": " + paramBean.getParamType().tsString() + otherType);
                 } else {

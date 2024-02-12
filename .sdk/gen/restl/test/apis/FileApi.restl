@@ -14,7 +14,7 @@ interface FileApi {
     @postUri(/upload)
     boolean upload(
             /*二进制文件*/binary file,
-            /*可选说明*/optional string desc
+            /*可选说明*/string desc?
     )
 
     //当返回值为list<byte>时，实际上生成的代码会自动优化为byte数组，而不是反直觉的list容器

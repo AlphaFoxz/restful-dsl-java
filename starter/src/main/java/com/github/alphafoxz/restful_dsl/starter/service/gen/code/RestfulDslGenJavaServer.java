@@ -202,7 +202,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
                 code.add(TAB + " */");
             }
             code.add(StrUtil.format(TAB + "@Schema(name = {}, description = {})", JSONUtil.quote(fieldBean.getFieldName(), true), commentDocToStringWrapParam(fieldBean.getDoc())));
-            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier())) {
+            if (!fieldBean.isRequired()) {
                 code.add(TAB + "@Nullable");
             }
             code.add(TAB + "private " + fieldBean.getType().javaString() + " " + fieldBean.getFieldName() + ";");
@@ -327,7 +327,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
             StringJoiner innerParamCode = new StringJoiner(", ");
             for (ParseRestfulSyntaxTreeUtil.ParamBean param : interfaceFunction.getParamList()) {
                 String paramAnno = "";
-                if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+                if (!param.isRequired()) {
                     paramAnno += "@Nullable ";
                 }
                 outerParamCode2.add(StrUtil.format(TAB + TAB + TAB + "{}{} {}", paramAnno, param.getParamType().javaString(), param.getParamName()));
@@ -368,7 +368,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         for (ParseRestfulSyntaxTreeUtil.ParamBean param : interfaceFunction.getParamList()) {
             String format = isPost && !isFormData ? TAB + TAB + TAB + "@Parameter(description = {}) @RequestBody {}{} {}" : TAB + TAB + TAB + "@Parameter(description = {}) {}{} {}";
             String paramAnno = "";
-            if (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(param.getModifier())) {
+            if (!param.isRequired()) {
                 paramAnno += "@Nullable ";
             }
             if (pathVarSet.contains(param.getParamName())) {

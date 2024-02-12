@@ -85,7 +85,7 @@ comment on column preset_sys.psys_abac_dynamic_authorization.target_subject_id i
             code.add("create table if not exists " + tableName);
             code.add("(");
             for (ParseRestfulSyntaxTreeUtil.ClassBean.ClassFieldBean fieldBean : classBean.getClassFieldList()) {
-                String sqlTypeString = fieldBean.getType().sqlString() + (ParseRestfulSyntaxTreeUtil.Modifier.OPTIONAL.equals(fieldBean.getModifier()) ? "" : " not null") + ",";
+                String sqlTypeString = fieldBean.getType().sqlString() + (!fieldBean.isRequired() ? "" : " not null") + ",";
                 code.add(StrUtil.toUnderlineCase(fieldBean.getFieldName()) + TAB + sqlTypeString);
             }
             code.add("constraint " + tableName + "_pk\n" +

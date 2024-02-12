@@ -9,118 +9,118 @@ import "./RestfulDslFileInfoDto.restl"
 /*字符串列表响应实体*/
 class RestfulDslListResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional list<string> data
+    list<string> data?
 }
 
 //响应体的data字段是map
 /*字符串map响应实体*/
 class RestfulDslMapResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional map<string, string> data
+    map<string, string> data?
 }
 
 //响应体的data字段是long
 /*长整型响应实体*/
 class RestfulDslLongResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional long data
+    long data?
 }
 
 //响应体的data字段是double
 /*双精度小数响应实体*/
 class RestfulDslDoubleResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional double data
+    double data?
 }
 
 //响应体的data字段是binary
 /*二进制响应实体*/
 class RestfulDslBinaryResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional binary data
+    binary data?
 }
 
 //响应体的data字段是string
 /*字符串响应实体*/
 class RestfulDslStringResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional string data
+    string data?
 }
 
 //响应体的data字段是RestfulDslCodeTemplateDto
 /*代码模板响应实体*/
 class RestfulDslCodeTemplateResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional RestfulDslCodeTemplateDto.RestfulDslCodeTemplateDto data
+    RestfulDslCodeTemplateDto.RestfulDslCodeTemplateDto data?
 }
 
 //响应体的data字段是RestfulDslFileInfoDto
 /*文件树响应实体*/
 class RestfulDslFileTreeResponseDto {
     /*主键*/
-    required long id
+    long id
     /*任务id*/
-    required long taskId
+    long taskId
     /*是否成功*/
-    required boolean success
+    boolean success
     /*消息*/
-    optional string message
+    string message?
     /*数据内容*/
-    optional RestfulDslFileInfoDto.RestfulDslFileInfoDto data
+    RestfulDslFileInfoDto.RestfulDslFileInfoDto data?
 }

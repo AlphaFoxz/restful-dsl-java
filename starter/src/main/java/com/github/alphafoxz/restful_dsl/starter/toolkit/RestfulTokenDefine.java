@@ -53,7 +53,7 @@ public interface RestfulTokenDefine {
     /**
      * 类型修饰符定义
      */
-    public static final String MODIFIER = "modifier";
+    public static final String REQUIRED = "required";
     /**
      * class定义
      */

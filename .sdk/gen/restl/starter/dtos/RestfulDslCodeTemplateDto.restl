@@ -5,15 +5,15 @@ namespace rs gen.restful_dsl.dtos
 /* 代码模板实体 */
 class RestfulDslCodeTemplateDto {
     /* 文件路径 */
-    required string filePath
+    string filePath
     /* 系统分隔符 */
-    required string fileSeparator
+    string fileSeparator
     /* 命名空间 */
-    required map<string, string> namespace
+    map<string, string> namespace
     /* 抽象语法树 */
-    optional string ast
+    string ast?
     /* 文件内容 */
-    required string content
+    string content
     /* 包含其他模板 */
-    required map<string, RestfulDslCodeTemplateDto> imports;
+    map<string, RestfulDslCodeTemplateDto> imports
 }
