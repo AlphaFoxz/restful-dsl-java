@@ -43,34 +43,34 @@ boolean isFile
 
 #### **byte**
 
-字节（不推荐单独使用），用法
+字节（不推荐单独使用），用法：
 
 ```
 /*下载文件接口*/
 list<byte> download()
 ```
 
-#### **i16**或**short**
+#### **i16** 或 **short**
 
-短整形，用法：
+短整形，i16与short在任何时候都完全等价，经过技术人员协商后约定其中一种即可。用法：
 
 ```
 /*服务端口号*/
 i16 port
 ```
 
-#### **i32**或**int**
+#### **i32** 或 **int**
 
-整形，用法
+整形，i32与int在任何时候都完全等价，经过技术人员协商后约定其中一种即可。用法
 
 ```
 /*文件数量*/
 i32 fileCount
 ```
 
-#### **i64**或**long**
+#### **i64** 或 **long**
 
-长整型，用法
+长整型，i64与long在任何时候都完全等价，经过技术人员协商后约定其中一种即可。用法
 
 ```
 /*文件大小（单位：字节）*/
@@ -151,24 +151,31 @@ void userHistory(list<string> data)
 
 **注：通常埋点会选择udp而非tcp协议，所以此功能暂定**
 
-### 关键字-修饰语
+### 关键字-必填性修饰符号
 
-#### **required**
+#### **!**
 
-必填。所有的字段如果不加修饰语，默认就是必填，所以通常情况下推荐省略，但如果同一个结构体中存在其他optional，那么推荐写上required以强调必填，方便维护。用法：
+表示 必填/非空。所有的字段如果不加必填性修饰符号，默认就是必填，所以推荐省略：
 
 ```
 /*主键*/
-required i64 id
+i64 id!
 ```
 
-#### **optional**
+它和不写`!`的情况完全等价
 
-可选。用法：
+```
+/*主键*/
+i64 id
+```
+
+#### **?**
+
+表示 非必填/可空。用法：
 
 ```
 /*筛选标题*/
-optional string title
+string title?
 ```
 
 ### 关键字-声明结构
@@ -281,7 +288,7 @@ list<UserSetting> queryPage(i32 pageNum, i32 pageSize)
 ```
 @formData
 @postUri(/upload)
-boolean upload(binary file, string customAttr)
+boolean upload(binary file, string aCustomAttr)
 ```
 
 ## 示例
@@ -308,9 +315,9 @@ interface UserApi {
     @page
     @getUri(/queryPage/{pageNum}/{pageSize})
     UserDto.UserDto queryPage(
-            /*页码*/required i32 pageNum,
-            /*每页条数*/required i32 pageSize,
-            /*可选 筛选用户名*/optional string username
+            /*页码*/i32 pageNum,
+            /*每页条数*/i32 pageSize,
+            /*可选 筛选用户名*/string username?
     )
 
     /*注册用户*/
@@ -353,22 +360,22 @@ class UserSimpleDto {
 /*用户dto*/
 class UserDto {
     /*主键*/
-    required i64 id
+    i64 id
 
     /*姓名*/
-    required string username
+    string username
 
     /*用户类型*/
-    required enum<UserEnum.UserTypeEnum> userType
+    enum<UserEnum.UserTypeEnum> userType
 
     /*权限*/
-    required list<string> roles
+    list<string> roles
 
     /*邮箱*/
-    optional string email
+    string email?
 
     /*性别*/
-    optional UserEnum.UserGenderEnum gender
+    UserEnum.UserGenderEnum gender?
 }
 ```
 
@@ -418,7 +425,7 @@ interface FileApi {
     @postUri(/upload)
     boolean upload(
             /*二进制文件*/binary file,
-            /*可选说明*/optional string desc
+            /*可选说明*/string desc?
     )
 
     //当返回值为list<byte>时，实际上生成的代码会自动优化为byte数组，而不是反直觉的list容器
