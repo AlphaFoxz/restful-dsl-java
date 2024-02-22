@@ -32,11 +32,11 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
     @Override
     public Set<CodeFile> genCodeFileSet(@NonNull ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot, String targetDir) {
         Set<CodeFile> result = CollUtil.newHashSet();
-        generateRestJavaIfaces(restfulRoot, result);
+        generateRestJavaApis(restfulRoot, result);
         generateRestJavaEnums(restfulRoot, result);
         generateRestJavaDtos(restfulRoot, result);
         for (ParseRestfulSyntaxTreeUtil.RestfulIncludeBean includeBean : restfulRoot.getIncludeBeanSet()) {
-            generateRestJavaIfaces(includeBean, result);
+            generateRestJavaApis(includeBean, result);
             generateRestJavaDtos(includeBean, result);
             generateRestJavaEnums(includeBean, result);
         }
@@ -103,7 +103,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         return codeFile;
     }
 
-    private void generateRestJavaIfaces(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws RestfulDslException {
+    private void generateRestJavaApis(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, @NonNull Set<CodeFile> result) throws RestfulDslException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (ParseRestfulSyntaxTreeUtil.InterfaceBean interfaceBean : rootBean.getInterfaceList()) {
             result.add(genApiFile(restfulRoot, interfaceBean));
@@ -248,6 +248,11 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
                     refEnumDesc.add("@see " + paramBean.getParamType().getT1().javaString());
                     hasRefEnum = true;
                 }
+            }
+            if (RestfulTokenDefine.REF_ENUM.equals(interfaceFunction.getReturnType().getToken())) {
+                hasRefEnum = true;
+                refEnumDesc.add("@return 枚举值");
+                refEnumDesc.add("@see " + interfaceFunction.getReturnType().getT1().javaString());
             }
             if (hasRefEnum) {
                 code.add(refEnumDesc.toString());

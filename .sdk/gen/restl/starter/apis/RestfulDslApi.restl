@@ -5,6 +5,7 @@ namespace rs gen.restful_dsl.apis
 import "../dtos/RestfulDslResponseDto.restl"
 import "../dtos/RestfulDslRequestDto.restl"
 import "../dtos/RestfulDslVersionDto.restl"
+import "../enums/RestfulDslEnum.restl"
 
 /* restful-dsl接口 */
 @uri(/_restfulDsl)
@@ -18,6 +19,9 @@ interface RestfulDslApi {
     /*创建java server的Api代码*/
     @postUri(/generateJavaServerApi)
     RestfulDslResponseDto.RestfulDslListResponseDto generateJavaServerApi(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto)
+    /*创建java server的mock service代码*/
+    @postUri(/generateJavaServerMockService)
+    RestfulDslResponseDto.RestfulDslListResponseDto generateJavaServerMockService(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto)
     /*生成sql语句*/
     @postUri(/generateSql)
     RestfulDslResponseDto.RestfulDslMapResponseDto generateSql(RestfulDslRequestDto.RestfulDslCodeTemplateRequestDto templateDto)
@@ -49,4 +53,7 @@ interface RestfulDslApi {
     /* 检查restful文件版本与生成情况 */
     @getUri(/checkRestfulFileVersion)
     RestfulDslVersionDto.RestfulDslVersionCheckResponse checkRestfulFileVersion()
+    /* 获取当前服务端语言类型 */
+    @getUri(/getServerLanguageType)
+    enum<RestfulDslEnum.RestfulDslServerLanguageTypeEnum> getServerLanguageType()
 }

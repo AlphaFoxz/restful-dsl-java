@@ -32,6 +32,8 @@ public class RestfulDslGenCodeService {
     @Resource
     private RestfulDslGenJavaServer restfulDslGenJavaServer;
     @Resource
+    private RestfulDslGenJavaMockService restfulDslGenJavaMockService;
+    @Resource
     private RestfulDslGenTsClient restfulDslGenTsClient;
     @Resource
     private RestfulDslGenRustClient restfulDslGenRustClient;
@@ -96,7 +98,43 @@ public class RestfulDslGenCodeService {
         return result;
     }
 
+    /**
+     * 生成mock service
+     */
+    public RestfulDslListResponseDto generateJavaMockService(RestfulDslCodeTemplateRequestDto templateDto) {
+        RestfulDslListResponseDto result = new RestfulDslListResponseDto()
+                .setId(snowflake.nextId())
+                .setTaskId(templateDto.getTaskId())
+                .setSuccess(false);
+        RestfulDslListResponseDto checkInfo = restfulDslInfoService.checkErr();
+        if (!checkInfo.getSuccess()) {
+            log.error("检查restl时发现错误 {}", checkInfo.getMessage());
+            result.setMessage("检查restl时发现错误");
+            return result;
+        }
+        ParseRestfulSyntaxTreeUtil.RestfulRootBean restfulRoot;
+        try {
+            restfulRoot = parseRestfulRoot(templateDto.getData());
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+            return result;
+        }
+        Set<CodeFile> codeFiles = restfulDslGenJavaMockService.genCodeFileSet(restfulRoot, null);
+        boolean genResult = true;
+        for (CodeFile codeFile : codeFiles) {
+            genResult = codeFile.writeToLocal();
+            if (!genResult) {
+                break;
+            }
+        }
+        result.setSuccess(genResult);
+        return result;
+    }
 
+    /**
+     * 生成服务端接口
+     */
     public RestfulDslListResponseDto generateJavaApi(RestfulDslCodeTemplateRequestDto templateDto) {
         RestfulDslListResponseDto result = new RestfulDslListResponseDto()
                 .setId(snowflake.nextId()).setTaskId(templateDto.getTaskId()).setSuccess(false);

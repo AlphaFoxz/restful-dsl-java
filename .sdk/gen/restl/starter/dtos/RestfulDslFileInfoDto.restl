@@ -2,7 +2,7 @@ namespace java com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos
 namespace ts gen.restl.dtos
 namespace rs gen.restful_dsl.dtos
 
-import "../enums/RestfulDslFileTypeEnum.restl"
+import "../enums/RestfulDslEnum.restl"
 
 class RestfulDslFileInfoDto {
     string filePath
@@ -11,7 +11,7 @@ class RestfulDslFileInfoDto {
     string separator
     string content?
     string ext?
-    enum<RestfulDslFileTypeEnum.RestfulDslFileTypeEnum> fileType
+    enum<RestfulDslEnum.RestfulDslFileTypeEnum> fileType
     boolean isReadOnly
     boolean isEmpty
     list<RestfulDslFileInfoDto> children?

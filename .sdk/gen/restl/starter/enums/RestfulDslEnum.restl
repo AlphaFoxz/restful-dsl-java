@@ -9,3 +9,9 @@ enum RestfulDslFileTypeEnum {
     /* 本地文件夹 */
     LOCAL_DIR = 1
 }
+
+/* RestfulDsl服务端语言类型 */
+enum RestfulDslServerLanguageTypeEnum {
+    /* JAVA */
+    JAVA = 0
+}
