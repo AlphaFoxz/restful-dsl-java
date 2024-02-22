@@ -6,10 +6,10 @@ import com.github.alphafoxz.restful_dsl.starter.RestfulDslConstants;
 import com.github.alphafoxz.restful_dsl.starter.configuration.RestfulDslProperties;
 import com.github.alphafoxz.restful_dsl.starter.toolkit.ParseRestfulSyntaxTreeUtil;
 import com.github.alphafoxz.restful_dsl.starter.toolkit.RestfulTokenDefine;
+import jakarta.annotation.Resource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
