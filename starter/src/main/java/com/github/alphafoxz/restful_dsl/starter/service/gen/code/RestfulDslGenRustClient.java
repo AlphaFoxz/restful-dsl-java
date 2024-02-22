@@ -112,6 +112,11 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                 code.add(TAB + StrUtil.upperFirst(StrUtil.toCamelCase(enumInstance.getInstanceName())) + " = " + enumInstance.getInstanceConstant() + ",");
             }
             code.add("}");
+            code.add("impl Into<i32> for " + enumBean.getEnumName() + " {");
+            code.add(TAB + "fn into(self) -> i32 {");
+            code.add(TAB + TAB + "self as i32");
+            code.add(TAB + "}");
+            code.add("}");
         }
         code.add("");
         codeFile.setContent(code.toString());

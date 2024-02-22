@@ -19,6 +19,7 @@ import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.RestfulDslVersion
 import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.RestfulDslCodeTemplateResponseDto;
 import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.Parameter;
+import com.github.alphafoxz.restful_dsl.starter.gen.restl.enums.RestfulDslServerLanguageTypeEnum;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.RestfulDslFileTreeResponseDto;
 
@@ -66,6 +67,16 @@ public interface RestfulDslApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<RestfulDslListResponseDto> generateJavaServerApi(
+            @Parameter(description = "") @RequestBody RestfulDslCodeTemplateRequestDto templateDto
+    );
+
+    @PostMapping(value = {"/generateJavaServerMockService"})
+    @Operation(summary = "创建java server的mock service代码", responses = {
+            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
+    })
+    public ResponseEntity<RestfulDslListResponseDto> generateJavaServerMockService(
             @Parameter(description = "") @RequestBody RestfulDslCodeTemplateRequestDto templateDto
     );
 
@@ -195,5 +206,17 @@ public interface RestfulDslApi extends HttpController {
             @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
     })
     public ResponseEntity<RestfulDslVersionCheckResponse> checkRestfulFileVersion();
+
+    /**
+     * @return 枚举值
+     * @see RestfulDslServerLanguageTypeEnum
+     */
+    @GetMapping(value = {"/getServerLanguageType"})
+    @Operation(summary = "获取当前服务端语言类型", responses = {
+            @ApiResponse(description = "请求成功", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(description = "无权限", responseCode = "403", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(description = "参数无效", responseCode = "400", content = @Content(schema = @Schema(hidden = true))),
+    })
+    public ResponseEntity<Integer> getServerLanguageType();
 
 }

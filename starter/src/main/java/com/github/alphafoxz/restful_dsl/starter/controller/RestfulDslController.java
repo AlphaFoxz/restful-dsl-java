@@ -2,6 +2,7 @@ package com.github.alphafoxz.restful_dsl.starter.controller;
 
 import com.github.alphafoxz.restful_dsl.starter.gen.restl.apis.RestfulDslApi;
 import com.github.alphafoxz.restful_dsl.starter.gen.restl.dtos.*;
+import com.github.alphafoxz.restful_dsl.starter.gen.restl.enums.RestfulDslServerLanguageTypeEnum;
 import com.github.alphafoxz.restful_dsl.starter.service.RestfulDslInfoService;
 import com.github.alphafoxz.restful_dsl.starter.service.gen.RestfulDslGenCodeService;
 import com.github.alphafoxz.restful_dsl.starter.service.version.RestfulDslVersionCheckService;
@@ -31,6 +32,11 @@ public class RestfulDslController implements RestfulDslApi {
     @Override
     public ResponseEntity<RestfulDslListResponseDto> generateJavaServerApi(RestfulDslCodeTemplateRequestDto templateDto) {
         return ResponseEntity.ok(restfulDslGenCodeService.generateJavaApi(templateDto));
+    }
+
+    @Override
+    public ResponseEntity<RestfulDslListResponseDto> generateJavaServerMockService(RestfulDslCodeTemplateRequestDto templateDto) {
+        return ResponseEntity.ok(restfulDslGenCodeService.generateJavaMockService(templateDto));
     }
 
     @Override
@@ -81,5 +87,10 @@ public class RestfulDslController implements RestfulDslApi {
     @Override
     public ResponseEntity<RestfulDslVersionCheckResponse> checkRestfulFileVersion() {
         return ResponseEntity.ok(restfulDslVersionCheckService.checkRestfulJava(null));
+    }
+
+    @Override
+    public ResponseEntity<Integer> getServerLanguageType() {
+        return ResponseEntity.ok(RestfulDslServerLanguageTypeEnum.JAVA.getValue());
     }
 }
