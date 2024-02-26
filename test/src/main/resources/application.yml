@@ -8,6 +8,9 @@ dsl:
     include-modules:
       - starter
       - test
-#    http-controller-class: com.github.alphafoxz.restful_dsl.starter.standard.HttpController
+    #    http-controller-class: com.github.alphafoxz.restful_dsl.starter.standard.HttpController
     http-controller-class: com.github.alphafoxz.restful_dsl.test.standard.HttpController
     page-class: com.github.alphafoxz.restful_dsl.test.standard.Page
+    gen-dto-fields:
+      enabled: true
+      package-name: _compile_only

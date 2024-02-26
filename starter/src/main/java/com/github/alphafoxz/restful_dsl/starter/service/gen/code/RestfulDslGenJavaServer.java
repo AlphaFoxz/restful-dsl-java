@@ -97,7 +97,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         }
         code.add("}");
         codeFile.setContent(code.toString());
-        codeFile.setPath(getRestGeneratePath(restfulRoot, interfaceBean.getInterfaceName()));
+        codeFile.setPath(getRestGeneratePath(rootBean.getJavaNameSpace(), interfaceBean.getInterfaceName()));
         codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(interfaceBean.getInterfaceName() + ".java");
         return codeFile;
@@ -146,7 +146,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         code.add(TAB + "private final int value;");
         code.add("}");
         codeFile.setContent(code.toString());
-        codeFile.setPath(getRestGeneratePath(restfulRoot, enumBean.getEnumName()));
+        codeFile.setPath(getRestGeneratePath(rootBean.getJavaNameSpace(), enumBean.getEnumName()));
         codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(enumBean.getEnumName() + ".java");
         return codeFile;
@@ -159,7 +159,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         }
     }
 
-    private CodeFile genDtoFile(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, ParseRestfulSyntaxTreeUtil.ClassBean classBean) {
+    private void genDtoFile(Set<CodeFile> result, ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, ParseRestfulSyntaxTreeUtil.ClassBean classBean) {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         CodeFile codeFile = new CodeFile();
         StringJoiner code = new StringJoiner("\n");
@@ -210,10 +210,43 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         code.add("}");
 
         codeFile.setContent(code.toString());
-        codeFile.setPath(getRestGeneratePath(restfulRoot, classBean.getClassName()));
+        codeFile.setPath(getRestGeneratePath(rootBean.getJavaNameSpace(), classBean.getClassName()));
         codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(classBean.getClassName() + ".java");
-        return codeFile;
+        result.add(codeFile);
+
+        if (!restfulDslProperties.getGenDtoFields().getEnabled()) {
+            return;
+        }
+        codeFile = new CodeFile();
+        code = new StringJoiner("\n");
+        code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + "." + restfulDslProperties.getGenDtoFields().getPackageName() + ";\n");
+        if (classBean.getDoc() != null) {
+            code.add("/**\n" +
+                    " * " + classBean.getDoc().getCommentValue() + "\n" +
+                    " */");
+        }
+        code.add("public interface " + classBean.getClassName() + "Fields" + " {");
+        for (ParseRestfulSyntaxTreeUtil.ClassBean.ClassFieldBean fieldBean : classBean.getClassFieldList()) {
+            if (CollUtil.isNotEmpty(fieldBean.getCommentList())) {
+                for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : fieldBean.getCommentList()) {
+                    code.add(TAB + "//" + commentBean.getCommentValue().trim());
+                }
+            }
+            if (fieldBean.getDoc() != null) {
+                code.add(TAB + "/**\n" +
+                        TAB + " * " + fieldBean.getDoc().getCommentValue() + "\n" +
+                        TAB + " */");
+            }
+            code.add(TAB + "public static final String " + StrUtil.toUnderlineCase(fieldBean.getFieldName()).toUpperCase() + " = \"" + fieldBean.getFieldName() + "\";");
+            code.add("");
+        }
+        code.add("}");
+        codeFile.setContent(code.toString());
+        codeFile.setPath(getRestGeneratePath(rootBean.getJavaNameSpace() + "." + restfulDslProperties.getGenDtoFields().getPackageName(), classBean.getClassName() + "Fields"));
+        codeFile.setTemplatePath(restfulRoot.getFilePath());
+        codeFile.setFileName(classBean.getClassName() + "Fields.java");
+        result.add(codeFile);
     }
 
     /**
@@ -411,7 +444,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
     private void generateRestJavaDtos(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, Set<CodeFile> result) throws RestfulDslException {
         ParseRestfulSyntaxTreeUtil.RootBean rootBean = restfulRoot.getRootBean();
         for (ParseRestfulSyntaxTreeUtil.ClassBean classBean : rootBean.getClassList()) {
-            result.add(genDtoFile(restfulRoot, classBean));
+            genDtoFile(result, restfulRoot, classBean);
         }
     }
 
@@ -425,8 +458,7 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         return JSONUtil.quote(value, true);
     }
 
-    private String getRestGeneratePath(ParseRestfulSyntaxTreeUtil.RestfulRootIface restfulRoot, String fileName) {
-        String namespace = restfulRoot.getRootBean().getJavaNameSpace();
+    private String getRestGeneratePath(String namespace, String fileName) {
         String moduleName = null;
         if (!CollUtil.isEmpty(restfulDslProperties.getIncludeModules())) {
             //多模块
