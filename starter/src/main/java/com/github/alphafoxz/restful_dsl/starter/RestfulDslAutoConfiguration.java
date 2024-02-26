@@ -1,9 +1,12 @@
 package com.github.alphafoxz.restful_dsl.starter;
 
+import cn.hutool.core.lang.Snowflake;
 import com.github.alphafoxz.restful_dsl.starter.configuration.RestfulDslProperties;
 import com.github.alphafoxz.restful_dsl.starter.service.RestfulDslInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.Resource;
@@ -17,6 +20,12 @@ import javax.annotation.Resource;
 public class RestfulDslAutoConfiguration {
     @Resource
     private RestfulDslInfoService restfulDslInfoService;
+
+    @Bean
+    @ConditionalOnMissingBean(Snowflake.class)
+    public Snowflake snowflake() {
+        return new Snowflake(0, 1);
+    }
 
     @Autowired
     public void init(RestfulDslProperties restfulDslProperties) {
