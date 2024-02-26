@@ -4,6 +4,7 @@ tasks.bootJar {
     enabled = true
 }
 dependencies {
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     implementation("org.springframework.boot:spring-boot-starter-web")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")

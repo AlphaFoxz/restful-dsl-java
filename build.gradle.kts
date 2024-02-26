@@ -34,6 +34,7 @@ subprojects {
     tasks.jar {
         enabled = true
         archiveClassifier.set("")
+        exclude("**/_compile_only/**")
     }
     dependencyManagement {
         imports {
