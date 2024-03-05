@@ -313,10 +313,10 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                     executeParamJoiner.add("\"" + param.getParamName() + "\": _" + StrUtil.toUnderlineCase(param.getParamName()));
                     continue;
                 }
-                if(RestfulTokenDefine.REF_ENUM.equals(param.getParamType().getToken())) {
-                    executeParamJoiner.add(param.getParamName() + "=\" + Into::<i32>::into(_"+StrUtil.toUnderlineCase(param.getParamName())+").to_string().as_str()");
-                } else if(param.getParamType().isIntype()) {
-                    executeParamJoiner.add(param.getParamName() + "=\" + _"+StrUtil.toUnderlineCase(param.getParamName())+".to_string().as_str()");
+                if (RestfulTokenDefine.REF_ENUM.equals(param.getParamType().getToken())) {
+                    executeParamJoiner.add(param.getParamName() + "=\" + Into::<i32>::into(_" + StrUtil.toUnderlineCase(param.getParamName()) + ").to_string().as_str()");
+                } else if (param.getParamType().isIntype()) {
+                    executeParamJoiner.add(param.getParamName() + "=\" + _" + StrUtil.toUnderlineCase(param.getParamName()) + ".to_string().as_str()");
                 } else {
                     executeParamJoiner.add(param.getParamName() + "=\" + url::form_urlencoded::byte_serialize(_" + StrUtil.toUnderlineCase(param.getParamName()) + ".as_bytes()).collect::<String>().as_str()");
                 }
@@ -349,7 +349,13 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
         result.add(TAB + TAB + "if __res.is_err() {");
         result.add(TAB + TAB + TAB + "return Err(\"请求失败\".into());");
         result.add(TAB + TAB + "}");
-        result.add(TAB + TAB + "Ok(__res.unwrap().json().await.unwrap())");
+        if (interfaceFunction.getReturnType().isIntype()) {
+            result.add(TAB + TAB + "Ok(__res.unwrap().text().await?.as_str().parse().unwrap())");
+        } else if (RestfulTokenDefine.VOID.equals(interfaceFunction.getReturnType().getToken())) {
+            result.add(TAB + TAB + "Ok(())");
+        } else {
+            result.add(TAB + TAB + "Ok(__res.unwrap().json().await.unwrap())");
+        }
         result.add(TAB + "}");
         return result.toString();
     }
