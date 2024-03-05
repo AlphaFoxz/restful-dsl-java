@@ -12,6 +12,7 @@ tasks.bootJar {
 tasks.jar {
     enabled = false
 }
+
 allprojects {
     group = restulDslGroup
     version = restulDslVersion
