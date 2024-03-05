@@ -5,6 +5,7 @@ import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.alphafoxz.restful_dsl.starter.exception.RestfulDslException;
 import com.github.alphafoxz.restful_dsl.starter.toolkit.ParseRestfulSyntaxTreeUtil;
+import com.github.alphafoxz.restful_dsl.starter.toolkit.RestfulTokenDefine;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -312,11 +313,13 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                     executeParamJoiner.add("\"" + param.getParamName() + "\": _" + StrUtil.toUnderlineCase(param.getParamName()));
                     continue;
                 }
-//                if (param.getParamType().isIntype() || param.getParamType().isCollection()) {
-                executeParamJoiner.add(param.getParamName() + "=\" + url::form_urlencoded::byte_serialize(_" + StrUtil.toUnderlineCase(param.getParamName()) + ".as_bytes()).collect::<String>().as_str()");
-//                } else {
-//                    executeParamJoiner.add(param.getParamName() + "=" + "${encodeURI(_JSON().stringify(_" + StrUtil.toUnderlineCase(param.getParamName()) + "))}");
-//                }
+                if(RestfulTokenDefine.REF_ENUM.equals(param.getParamType().getToken())) {
+                    executeParamJoiner.add(param.getParamName() + "=\" + Into::<i32>::into(_"+StrUtil.toUnderlineCase(param.getParamName())+").to_string().as_str()");
+                } else if(param.getParamType().isIntype()) {
+                    executeParamJoiner.add(param.getParamName() + "=\" + _"+StrUtil.toUnderlineCase(param.getParamName())+".to_string().as_str()");
+                } else {
+                    executeParamJoiner.add(param.getParamName() + "=\" + url::form_urlencoded::byte_serialize(_" + StrUtil.toUnderlineCase(param.getParamName()) + ".as_bytes()).collect::<String>().as_str()");
+                }
             }
             executeParam = executeParamJoiner.toString();
         }
