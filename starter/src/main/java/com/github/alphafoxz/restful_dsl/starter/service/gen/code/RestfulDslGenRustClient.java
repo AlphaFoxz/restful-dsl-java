@@ -350,11 +350,11 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
         result.add(TAB + TAB + TAB + "return Err(\"请求失败\".into());");
         result.add(TAB + TAB + "}");
         if (interfaceFunction.getReturnType().isIntype()) {
-            result.add(TAB + TAB + "Ok(__res.unwrap().text().await?.as_str().parse().unwrap())");
+            result.add(TAB + TAB + "Ok(__res.unwrap().text().await?.as_str().parse()?)");
         } else if (RestfulTokenDefine.VOID.equals(interfaceFunction.getReturnType().getToken())) {
             result.add(TAB + TAB + "Ok(())");
         } else {
-            result.add(TAB + TAB + "Ok(__res.unwrap().json().await.unwrap())");
+            result.add(TAB + TAB + "Ok(__res.unwrap().json().await?)");
         }
         result.add(TAB + "}");
         return result.toString();
