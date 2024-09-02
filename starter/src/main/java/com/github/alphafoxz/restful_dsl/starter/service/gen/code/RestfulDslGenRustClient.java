@@ -118,6 +118,17 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
             code.add(TAB + TAB + "self as i32");
             code.add(TAB + "}");
             code.add("}");
+            code.add("impl TryInto<" + enumBean.getEnumName() + "> for i32 {");
+            code.add(TAB + "type Error = crate::core::error::Error;");
+            code.add(TAB + "fn try_into(self) -> Result<" + enumBean.getEnumName() + ", Self::Error> {");
+            code.add(TAB + TAB + "match self {");
+            for (ParseRestfulSyntaxTreeUtil.EnumBean.EnumInstance enumInstance : enumBean.getEnumInstance()) {
+                code.add(TAB + TAB + enumInstance.getInstanceConstant() + " => Ok(" + enumBean.getEnumName() + "::" + StrUtil.upperFirst(StrUtil.toCamelCase(enumInstance.getInstanceName())) + "),");
+            }
+            code.add(TAB + TAB + "_ => Err(\"枚举值未知\".into()),");
+            code.add(TAB + TAB + "}");
+            code.add(TAB + "}");
+            code.add("}");
         }
         code.add("");
         codeFile.setContent(code.toString());
@@ -315,10 +326,10 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
                 }
                 if (RestfulTokenDefine.REF_ENUM.equals(param.getParamType().getToken())) {
                     executeParamJoiner.add(param.getParamName() + "=\" + Into::<i32>::into(_" + StrUtil.toUnderlineCase(param.getParamName()) + ").to_string().as_str()");
-                } else if (param.getParamType().isIntype()) {
-                    executeParamJoiner.add(param.getParamName() + "=\" + _" + StrUtil.toUnderlineCase(param.getParamName()) + ".to_string().as_str()");
-                } else {
+                } else if (param.getParamType().isIntype() && RestfulTokenDefine.Intypes.STRING.equals(param.getParamType().getToken())) {
                     executeParamJoiner.add(param.getParamName() + "=\" + url::form_urlencoded::byte_serialize(_" + StrUtil.toUnderlineCase(param.getParamName()) + ".as_bytes()).collect::<String>().as_str()");
+                } else {
+                    executeParamJoiner.add(param.getParamName() + "=\" + _" + StrUtil.toUnderlineCase(param.getParamName()) + ".to_string().as_str()");
                 }
             }
             executeParam = executeParamJoiner.toString();
@@ -350,7 +361,11 @@ public class RestfulDslGenRustClient implements RestfulCodeGenerator {
         result.add(TAB + TAB + TAB + "return Err(\"请求失败\".into());");
         result.add(TAB + TAB + "}");
         if (interfaceFunction.getReturnType().isIntype()) {
-            result.add(TAB + TAB + "Ok(__res.unwrap().text().await?.as_str().parse()?)");
+            if (RestfulTokenDefine.REF_ENUM.equals(interfaceFunction.getReturnType().getToken())) {
+                result.add(TAB + TAB + "Ok(__res.unwrap().text().await?.parse::<i32>()?.try_into()?)");
+            } else {
+                result.add(TAB + TAB + "Ok(__res.unwrap().text().await?.parse()?)");
+            }
         } else if (RestfulTokenDefine.VOID.equals(interfaceFunction.getReturnType().getToken())) {
             result.add(TAB + TAB + "Ok(())");
         } else {
