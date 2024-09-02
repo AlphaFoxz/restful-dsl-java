@@ -14,6 +14,7 @@ tasks.jar {
 }
 
 allprojects {
+    apply(plugin = "java-library")
     group = restulDslGroup
     version = restulDslVersion
     repositories {
@@ -22,16 +23,15 @@ allprojects {
             url = uri("https://jitpack.io")
         }
     }
-}
-subprojects {
-    apply(plugin = "java-library")
-    apply(plugin = "org.springframework.boot")
-    apply(plugin = "io.spring.dependency-management")
-    apply(plugin = "maven-publish")
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+}
+subprojects {
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "maven-publish")
     tasks.jar {
         enabled = true
         archiveClassifier.set("")
