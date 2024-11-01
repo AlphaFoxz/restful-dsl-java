@@ -3,6 +3,7 @@
 /*/target
 /build
 /*/build
+.gradle
 
 #IDE files
 /.idea
