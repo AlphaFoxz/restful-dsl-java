@@ -214,39 +214,6 @@ public class RestfulDslGenJavaServer implements RestfulCodeGenerator {
         codeFile.setTemplatePath(restfulRoot.getFilePath());
         codeFile.setFileName(classBean.getClassName() + ".java");
         result.add(codeFile);
-
-        if (!restfulDslProperties.getGenDtoFields().getEnabled()) {
-            return;
-        }
-        codeFile = new CodeFile();
-        code = new StringJoiner("\n");
-        code.add("package " + rootBean.getNamespaceMap().get(ParseRestfulSyntaxTreeUtil.NamespaceBean.NamespaceLangEnum.JAVA) + "." + restfulDslProperties.getGenDtoFields().getPackageName() + ";\n");
-        if (classBean.getDoc() != null) {
-            code.add("/**\n" +
-                    " * " + classBean.getDoc().getCommentValue() + "\n" +
-                    " */");
-        }
-        code.add("public interface " + classBean.getClassName() + "Fields" + " {");
-        for (ParseRestfulSyntaxTreeUtil.ClassBean.ClassFieldBean fieldBean : classBean.getClassFieldList()) {
-            if (CollUtil.isNotEmpty(fieldBean.getCommentList())) {
-                for (ParseRestfulSyntaxTreeUtil.CommentBean commentBean : fieldBean.getCommentList()) {
-                    code.add(TAB + "//" + commentBean.getCommentValue().trim());
-                }
-            }
-            if (fieldBean.getDoc() != null) {
-                code.add(TAB + "/**\n" +
-                        TAB + " * " + fieldBean.getDoc().getCommentValue() + "\n" +
-                        TAB + " */");
-            }
-            code.add(TAB + "public static final String " + StrUtil.toUnderlineCase(fieldBean.getFieldName()).toUpperCase() + " = \"" + fieldBean.getFieldName() + "\";");
-            code.add("");
-        }
-        code.add("}");
-        codeFile.setContent(code.toString());
-        codeFile.setPath(getRestGeneratePath(rootBean.getJavaNameSpace() + "." + restfulDslProperties.getGenDtoFields().getPackageName(), classBean.getClassName() + "Fields"));
-        codeFile.setTemplatePath(restfulRoot.getFilePath());
-        codeFile.setFileName(classBean.getClassName() + "Fields.java");
-        result.add(codeFile);
     }
 
     /**

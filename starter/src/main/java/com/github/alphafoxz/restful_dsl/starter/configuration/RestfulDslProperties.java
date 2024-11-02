@@ -10,16 +10,10 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = "dsl.restl")
 public class RestfulDslProperties {
-    private GenDtoFields genDtoFields = new GenDtoFields();
     private String basePackage = "com.github.alphafoxz";
     private List<String> includeModules;
     private String codePackage = "gen.restl";
     private String httpControllerClass = "HttpController";
     private String pageClass = "org.springframework.data.domain.Page";
 
-    @Data
-    public static class GenDtoFields {
-        private Boolean enabled = false;
-        private String packageName = "_compile_only";
-    }
 }

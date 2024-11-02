@@ -1,5 +1,5 @@
 var restulDslGroup = "com.github.alphafoxz.restful-dsl-java"
-var restulDslVersion = "3.0.0-alpha.3"
+var restulDslVersion = "3.0.0-alpha.4"
 plugins {
     id("java-library")
     id("org.springframework.boot")
@@ -35,7 +35,7 @@ subprojects {
     tasks.jar {
         enabled = true
         archiveClassifier.set("")
-        exclude("**/_compile_only/**")
+//        exclude("**/_compile_only/**")
     }
     dependencyManagement {
         imports {
