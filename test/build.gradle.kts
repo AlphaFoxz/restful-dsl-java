@@ -1,5 +1,5 @@
 var restulDslGroup = "com.github.alphafoxz.restful-dsl-java"
-var restulDslVersion = "3.0.0-alpha.3"
+var restulDslVersion = "0.0.1-alpha.0"
 tasks.bootJar {
     enabled = true
 }
